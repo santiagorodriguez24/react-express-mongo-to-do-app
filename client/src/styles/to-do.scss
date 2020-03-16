@@ -1,0 +1,68 @@
+.app-frame {
+  margin: 0;
+  padding: 20px;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  background: #1f0a09;
+}
+
+.app-header {
+  margin: 0px;
+  width: 100%;
+  padding-bottom: 8px;
+  margin-bottom: 20px;
+  border: 0;
+  border-bottom: 1px;
+  border-style: solid;
+  border-color: white;
+  flex-wrap: wrap !important;
+
+  .col-header {
+    display: flex;
+    align-items: center;
+  }
+
+  h1 {
+    color: white;
+  }
+}
+
+.todo-logo {
+  border-style: none;
+  vertical-align: top;
+  max-height: 80px;
+  width: auto;
+}
+
+.home-container {
+  margin: 0px;
+
+  .row {
+    margin: 0px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.message-actions {
+  margin: 0px;
+  position: absolute;
+  bottom: 20px;
+  color: #383d41;
+  background-color: #e2e3e5;
+  border-color: #d6d8db;
+  padding: 10px;
+  width: calc(100% - 40px);
+  flex-wrap: wrap !important;
+}
+
+.not-found-row {
+  margin: 0px;
+  height: 40vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
