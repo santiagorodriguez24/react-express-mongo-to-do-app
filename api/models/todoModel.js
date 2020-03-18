@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
-let estadosValidos = {
-    values: ['PENDIENTE', 'RESUELTO'],
+let ValidStates = {
+    values: ['PENDING', 'IN PROGRESS', 'DONE'],
     message: '{VALUE} no es un estado valido.' // mensaje que se muestra si el VALUE no se incluye en el arreglo values
 }
 
@@ -16,23 +16,23 @@ let Schema = mongoose.Schema;
 let todoSchema = new Schema(
     // defino los campos que tendra un objeto user de la coleccion y sus reglas: el tipo y si es requerido o no
     {
-        titulo: {
+        title: {
             type: String,
-            required: [true, 'La descripcion es requerida.']
+            required: [true, 'Title is required.']
         },
-        descripcion: {
+        description: {
             type: String,
-            required: [true, 'La descripcion es requerida.']
+            required: [true, 'Description is required.']
         },
-        estado: {
+        state: {
             type: String,
-            default: 'PENDIENTE',
-            enum: estadosValidos // el valor de role tiene que ser uno de los definidos en el arreglo values de rolesValidos
+            default: 'PENDING',
+            enum: ValidStates // el valor de role tiene que ser uno de los definidos en el arreglo values de rolesValidos
         },
-        archivo: {
+        file: {
             type: String,
             required: false // se puede omitir el required cuando es false. 
-            /* Al definirlo como no requerido, cuando el campo img no es pasado con la peticion no causa un error, 
+            /* Al definirlo como no requerido, cuando el campo file no es pasado con la peticion no causa un error, 
             y si ademas no tiene definido un valor por defecto el objeto user resultante no tendra la propiedad img.
             */
         }

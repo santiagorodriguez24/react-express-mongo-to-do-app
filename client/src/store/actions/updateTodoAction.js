@@ -1,9 +1,9 @@
-import { UPDATE_TODO } from '../../constants/constants';
+import { UPDATE_TODO } from '../../constants/actionTypes';
 import { createAction } from 'redux-actions';
-import { apiPut } from '../../api/Api';
+import { apiPutFormData } from '../../api/Api';
 import { urlToDos } from '../../api/urls';
 
 export const updateTodo = createAction(
     UPDATE_TODO,
-    (id, todo) => apiPut(urlToDos, id, todo)
+    (id, todo) => apiPutFormData(urlToDos, id, todo)
 );

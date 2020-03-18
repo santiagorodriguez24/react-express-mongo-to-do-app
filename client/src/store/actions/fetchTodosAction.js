@@ -1,4 +1,4 @@
-import { FETCH_TODOS } from '../../constants/constants';
+import { FETCH_TODOS } from '../../constants/actionTypes';
 import { createAction } from 'redux-actions';
 import { apiGet } from '../../api/Api';
 import { urlToDos } from '../../api/urls';

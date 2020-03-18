@@ -1,4 +1,4 @@
-import { DELETE_TODO } from '../../constants/constants';
+import { DELETE_TODO } from '../../constants/actionTypes';
 import { createAction } from 'redux-actions';
 import { apiDelete } from '../../api/Api';
 import { urlToDos } from '../../api/urls';

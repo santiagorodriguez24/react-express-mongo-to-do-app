@@ -18,11 +18,18 @@ class HomeContainer extends Component {
                     <div className='home-container'>
                         <Jumbotron fluid>
                             <Container fluid>
-                                <h1 className="display-5">Bienvenido a la To Do App</h1>
-                                <p className="lead">Podra crear y editar tareas pendientes y modificar su estado a Resuelto.</p>
+                                <h1 className="display-5">Welcome to the To Do App!</h1>
+                                <p className="lead">Here you can create, edit and follow the progress status of pending tasks</p>
                                 <hr className="my-4" />
                                 <Row>
-                                    <Button color="secondary" size="lg" block onClick={this.handleOnClick}>Lista de Tareas</Button>
+                                    <Button
+                                        color="secondary"
+                                        size="lg"
+                                        block
+                                        onClick={this.handleOnClick}
+                                    >
+                                        {'See the list of tasks.'}
+                                    </Button>
                                 </Row>
                             </Container>
                         </Jumbotron>

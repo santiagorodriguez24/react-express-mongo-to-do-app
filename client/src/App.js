@@ -8,13 +8,13 @@ import NewTodoContainer from './containers/NewTodoContainer';
 
 class App extends Component {
 
-  renderHome = () => <HomeContainer />;
+  renderHome = () => <HomeContainer/>;
 
-  renderTodoContainer = () => <TodoContainer></TodoContainer>
+  renderTodoContainer = () => <TodoContainer/>
 
-  renderTodoListContainer = () => <TodosListContainer />;
+  renderTodoListContainer = () => <TodosListContainer/>;
 
-  renderTodoNewContainer = () => <NewTodoContainer />;
+  renderTodoNewContainer = () => <NewTodoContainer/>;
 
   render() {
     return (
@@ -31,7 +31,7 @@ class App extends Component {
           <Route path="/todos/new" component={this.renderTodoNewContainer}></Route>
           <Route
             path="/todos/:id"
-            render={props => <TodoContainer dni={props.match.params.dni} />} // en props tengo match, location y history
+            render={props => <TodoContainer id={props.match.params.id} />} // en props tengo match, location y history
           >
           </Route>
         </Switch>

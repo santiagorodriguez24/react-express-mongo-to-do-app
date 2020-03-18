@@ -1,4 +1,4 @@
-import { INSERT_TODO } from '../../constants/constants';
+import { INSERT_TODO } from '../../constants/actionTypes';
 import { createAction } from 'redux-actions';
 import { apiPostFormData } from '../../api/Api';
 import { urlToDos } from '../../api/urls';

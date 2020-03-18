@@ -15,65 +15,44 @@ class TodoContainer extends Component {
 
     componentDidMount() {
         if (!this.props.todo) {
-            this.props.fetchTodos();
+            this.props.fetchTodos('');
         }
     }
 
-    // handleSubmit = (event) => {
-    //     let descripcion = event.target.description.value;
-    //     let archivo = event.target.file.files[0];
-
-    //     const formData = new FormData()
-    //     formData.append("descripcion", descripcion);
-
-    //     if (archivo) {
-    //         formData.append("archivo", archivo);
-    //     }
-
-    //     console.log('On submit formdata: ', formData);
-
-    //     fetch("/todo", {
-    //         mode: 'no-cors',
-    //         method: "POST",
-    //         body: formData
-    //     }).then(response => response.json())
-    //         .then(responseJson => {
-    //             if (responseJson.error) {
-    //                 return Promise.reject(responseJson.validation)
-    //             }
-
-    //             return responseJson;
-    //         })
-    //         .then(result => {
-    //             console.log("Se resolvio con exito: ", result)
-    //             this.setState({
-    //                 result
-    //             })
-    //         })
-    //         .catch(error => {
-    //             console.log("Hubo un error: ", error);
-    //         });
-    // }
-
     handleSubmit = (values) => {
         // convierto el objeto recibido en un string
-        console.log('OnSubmit: ', values);
-        // console.log('OnSubmit: ', JSON.stringify(values));
-        // const { id } = values;
-        /* para que la propiedad submitting de redux-form se setee correctamente tenemos que devolver una promesa, y 
+        console.log('Todo Container OnSubmit: ', values);
+        const { _id } = values;
+
+        const formData = new FormData();
+        formData.append("title", values.title);
+        formData.append("description", values.description);
+        formData.append("state", values.state);
+
+        if (values.file || typeof values.file !== 'string') {
+            formData.append("file", values.file);
+        }
+
+        /* 
+        para que la propiedad submitting de redux-form se setee correctamente tenemos que devolver una promesa, y 
         el fetch que hace el PUT devuelve una
         */
-        // return this.props.updateTodo(id, values)
-        //     .then(result => {
-        //         console.log("Se resolvio con exito", result)
-        //     }).catch(error => {
-        //         throw new SubmissionError(error);
-        //     });
+        return this.props.updateTodo(_id, formData)
+            .then(result => {
+                console.log("Se resolvio con exito", result)
+            }).catch(error => {
+                console.log("Error", error)
+                throw new SubmissionError(error);
+            });
     }
 
     handleOnBack = () => {
         console.log('handleOnBack: ');
         this.props.history.goBack();
+    }
+
+    handleOnEdit = (id) => {
+        this.props.history.push(`/todos/${id}/edit`);
     }
 
     handleOnSubmitSuccess = () => {
@@ -89,22 +68,6 @@ class TodoContainer extends Component {
         });
     }
 
-    renderTodoControl = (isEdit, isDelete) => {
-        // JSX permite determinar el componente a renderizar en tiempo de ejecucion
-        const TodoControl = isEdit ? ToDoForm : ToDoView; // si la url coincide con el path la propiedad match retorna true
-
-        return (
-            <TodoControl
-                {...this.props.todo} // pasamos todos los datos del To Do mediante el SPREAD operator
-                onSubmit={this.handleSubmit}
-                onSubmitSuccess={this.handleOnSubmitSuccess} // ante un envio exitoso del formulario redux-form ejecuta esta funcion
-                onBack={this.handleOnBack}
-                isDeleteAllow={!!isDelete} // doble negacion transforma falsy value en booleano: !null = true => !!null = false
-                onDelete={this.handleOnDelete}
-            />
-        );
-    }
-
     renderBody = () => {
         return (
             <Route
@@ -113,10 +76,17 @@ class TodoContainer extends Component {
                     // match no es un booleano, si la ruta coincide match es un objeto, de lo contrario es null (falsy value)
                     let { match: isEdit } = props;
 
+                    // JSX permite determinar el componente a renderizar en tiempo de ejecucion
+                    const TodoControl = isEdit ? ToDoForm : ToDoView; // si la url coincide con el path la propiedad match retorna true
+
                     return (
-                        <Route
-                            path="/todos/:id/delete"
-                            children={({ match: isDelete }) => (this.renderCustomerControl(isEdit, isDelete))}
+                        <TodoControl
+                            {...this.props.todo} // pasamos todos los datos del To Do mediante el SPREAD operator
+                            onSubmit={this.handleSubmit}
+                            onSubmitSuccess={this.handleOnSubmitSuccess} // ante un envio exitoso del formulario redux-form ejecuta esta funcion
+                            onBack={this.handleOnBack}
+                            onEdit={this.handleOnEdit}
+                            onDelete={this.handleOnDelete}
                         />
                     );
 
@@ -128,14 +98,12 @@ class TodoContainer extends Component {
 
     render() {
         return (
-            <div>
-                <AppFrame
-                    header={`To Do - ${this.props.id}`}
-                    body={
-                        this.renderBody()
-                    }
-                ></AppFrame>
-            </div>
+            <AppFrame
+                header={`Task - Id: ${this.props.id}`}
+                body={
+                    this.renderBody()
+                }
+            />
         );
     }
 }

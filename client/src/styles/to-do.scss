@@ -4,7 +4,8 @@
   box-sizing: border-box;
   width: 100%;
   height: 100%;
-  background: #1f0a09;
+  background: #280904;
+  color: white;
 }
 
 .app-header {
@@ -21,10 +22,124 @@
   .col-header {
     display: flex;
     align-items: center;
+
+    &.header {
+      padding-left: 0px;
+      padding-right: 25px;
+    }
   }
 
   h1 {
     color: white;
+  }
+}
+
+.actions-bar {
+  display: flex;
+  align-items: center;
+  margin: 0px;
+  margin-bottom: 20px;
+  padding: 10px;
+  flex-wrap: wrap !important;
+  background-color: #680e34;
+  font-weight: bold;
+
+  .filter-input {
+    display: inline-block;
+    width: auto;
+    margin-left: 10px;
+  }
+
+  .btn-round {
+    border-radius: 50%;
+    line-height: 1;
+    padding: 10px;
+    background-color: #341931;
+    border-color: #341931;
+
+    &:hover {
+      background-color: #571b3c;
+      border-color: #571b3c;
+    }
+
+    svg {
+      vertical-align: initial;
+    }
+  }
+}
+
+.todos-card {
+  .card-header {
+    background-color: #9a151a;
+    font-weight: bold;
+  }
+
+  .toast {
+    max-width: none;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  .toast-header {
+    color: #341931;
+  }
+
+  .toast-body {
+    color: #571b3c;
+  }
+}
+
+.todo-view {
+  .card-header {
+    background-color: #9a151a;
+    padding: 0.5rem 1rem;
+    font-size: 1.25rem;
+    line-height: 1.5;
+    color: white;
+  }
+
+  .card-body {
+    color: #571b3c;
+    font-size: 1.25rem;
+    line-height: 1.5;
+  }
+
+  .back {
+    background-color: rgba(87, 27, 60, 1);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+      background-color: rgba(87, 27, 60, 0.8);
+    }
+  }
+
+  .delete {
+    background-color: rgba(122, 30, 72, 1);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+      background-color: rgba(122, 30, 72, 0.8);
+    }
+  }
+
+  .edit {
+    background-color: rgba(157, 32, 83, 1);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+      background-color: rgba(157, 32, 83, 0.8);
+    }
   }
 }
 
@@ -44,18 +159,6 @@
     display: flex;
     justify-content: center;
   }
-}
-
-.message-actions {
-  margin: 0px;
-  position: absolute;
-  bottom: 20px;
-  color: #383d41;
-  background-color: #e2e3e5;
-  border-color: #d6d8db;
-  padding: 10px;
-  width: calc(100% - 40px);
-  flex-wrap: wrap !important;
 }
 
 .not-found-row {

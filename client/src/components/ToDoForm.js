@@ -4,20 +4,22 @@ import { reduxForm, Field } from 'redux-form'; // importamos el HOC que conecta 
 import { setPropsToInitialValues } from '../HOCs/setPropsToInitialValues';
 import { Prompt } from 'react-router-dom';
 import { Form, FormGroup, Label, Input, FormText, FormFeedback, Button } from 'reactstrap';
+import { stateOptions } from '../constants/options';
+import { renderOptions } from '../utils/utils';
 
 const validate = values => {
     const error = {}; // objeto con los errores de validacion encontrados. El nombre de las claves es igual al campo con error
 
-    if (!values.titulo) {
-        error.titulo = 'Debe ingresar un Titulo.'
+    if (!values.title) {
+        error.title = 'The title field is required.'
     }
 
     if (!values.description) {
-        error.description = 'Debe ingresar una Descripcion.'
+        error.description = 'The description field is required.'
     }
 
-    if (!values.estado) {
-        error.estado = 'Debe seleccionar un Estado.'
+    if (!values.state) {
+        error.state = 'You must select a state.'
     }
 
     return error; // si no hay error se retorna un objeto vacio
@@ -53,6 +55,31 @@ export class ToDoForm extends Component {
         </div>
     );
 
+    renderSelectField = ({ input, meta, options, label, name, placeholder }) => (
+        <div>
+            <FormGroup>
+                <Label for={name}>{label}</Label>
+                <Input
+                    {...input}
+                    id={name}
+                    placeholder={placeholder}
+                    type={"select"}
+                    invalid={meta.touched && meta.error}
+                >
+                    {
+                        renderOptions(options, name)
+                    }
+                </Input>
+            </FormGroup>
+            {
+                meta.touched && meta.error ?
+                    <FormFeedback style={{ display: 'block', fontSize: '100%' }}>{meta.error}</FormFeedback>
+                    :
+                    null
+            }
+        </div>
+    );
+
     renderFileInput = ({ input: { value: omitValue, onChange, onBlur, ...inputProps }, meta: omitMeta, label, name, helpText }) => (
         <div>
             <FormGroup>
@@ -76,44 +103,6 @@ export class ToDoForm extends Component {
 
     // handleChange = (handler) => ({ target: { files } }) => handler(files.length ? files[0] : null);
 
-    renderSelectField = ({ input, meta, options, label, name, placeholder }) => (
-        <div>
-            <FormGroup>
-                <Label for={name}>{label}</Label>
-                <Input
-                    {...input}
-                    id={name}
-                    placeholder={placeholder}
-                    type={"select"}
-                    invalid={meta.touched && meta.error}
-                >
-                    {
-                        this.renderOptions(options, name)
-                    }
-                </Input>
-            </FormGroup>
-            {
-                meta.touched && meta.error ?
-                    <FormFeedback style={{ display: 'block', fontSize: '100%' }}>{meta.error}</FormFeedback>
-                    :
-                    null
-            }
-        </div>
-    );
-
-    renderOptions = (options, name) => {
-        let result = options.map((option, index) => {
-            return (
-                <option key={`${name}-${index}`} value={option}>
-                    {option}
-                </option>
-            );
-        }
-        );
-        result.unshift(<option key={0} value={''}></option>);
-        return result;
-    };
-
     render() {
         // es importante que la funcion pasada a onSubmit se llame handleSubmit ya que es una funcion provista por redux-form
         const { handleSubmit, submitting, onBack, pristine, submitSucceeded } = this.props;
@@ -123,39 +112,37 @@ export class ToDoForm extends Component {
                 encType="multipart/form-data"
                 method="post"
                 onSubmit={handleSubmit}
-                style={{ color: 'white' }}
             >
                 {/* El componente Field es el que genera acciones e impacta en el reducer de redux - form */}
                 <Field
+                    label="Title*"
+                    name="title"
+                    placeholder="Enter a title for the task."
+                    component={this.renderMyField} // para poder mostrar la validacion no puedo usar un input comun
                     withFocus={true}
-                    label="Titulo*"
-                    name="titulo"
-                    placeholder="Escriba un titulo para la tarea"
-                    component={this.renderMyField} // para poder mostrar la validacion no puedo usar un input comun
                 />
 
                 <Field
-                    label="Descripcion*"
-                    type="textarea"
+                    label="Description*"
                     name="description"
-                    placeholder="Agregue una descripcion a la tarea"
-                    component={this.renderMyField} // para poder mostrar la validacion no puedo usar un input comun
+                    type="textarea"
+                    placeholder="Add a description to the task."
+                    component={this.renderMyField}
                 />
 
                 <Field
-                    label="Estado*"
-                    name="estado"
-                    options={['PENDIENTE', 'RESUELTO']}
-                    placeholder="Seleccione el estado"
-                    component={this.renderSelectField} // para poder mostrar la validacion no puedo usar un input comun
+                    label="State*"
+                    name="state"
+                    options={stateOptions}
+                    placeholder="Select a state for the task."
+                    component={this.renderSelectField}
                 />
 
                 <Field
-                    type="file"
-                    name="archivo"
-                    label="Archivo"
-                    helpText={"Puede seleccionar un archivo adjunto a la tarea."}
-                    component={this.renderFileInput} // para poder mostrar la validacion no puedo usar un input comun
+                    label="File"
+                    name="file"
+                    helpText={"You can attach a file to the task."}
+                    component={this.renderFileInput}
                 />
 
                 <FormGroup>
@@ -165,7 +152,7 @@ export class ToDoForm extends Component {
                         disabled={pristine || submitting}
                         style={{ marginRight: '20px' }}
                     >
-                        {'Enviar'}
+                        {'Submit'}
                     </Button>
                     <Button
                         color="secondary"
@@ -174,13 +161,13 @@ export class ToDoForm extends Component {
                         onClick={onBack}
                         disabled={submitting}
                     >
-                        {'Cancelar'}
+                        {'Cancel'}
                     </Button>
                 </FormGroup>
 
                 <Prompt
                     when={!pristine && !submitSucceeded}
-                    message="Se perderan los datos ingresados si continua"
+                    message="The data entered will be lost if you continue."
                 >
                 </Prompt>
             </Form>
@@ -189,10 +176,10 @@ export class ToDoForm extends Component {
 }
 
 ToDoForm.propTypes = {
-    titulo: PropTypes.string,
+    title: PropTypes.string,
     description: PropTypes.string,
-    estado: PropTypes.string,
-    archivo: PropTypes.string,
+    state: PropTypes.string,
+    file: PropTypes.string,
     onBack: PropTypes.func.isRequired
 };
 

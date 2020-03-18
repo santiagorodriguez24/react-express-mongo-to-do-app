@@ -11,6 +11,6 @@ app.put('/todos/:id', TodoController.updateTodo);
 
 app.delete('/todos/:id', TodoController.deleteTodo);
 
-app.get('/uploads/:nombreArchivo', TodoController.getFile);
+app.get('/uploads/:fileName', TodoController.getFile);
 
 module.exports = app;
