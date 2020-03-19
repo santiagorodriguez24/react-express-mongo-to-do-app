@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import AppFrame from '../components/AppFrame';
 import ActionsBar from '../components/ActionsBar';
 import { Container, Row, Col, Card, CardHeader, CardBody, ListGroup, ListGroupItem, Toast, ToastHeader, ToastBody } from 'reactstrap';
@@ -48,10 +48,6 @@ class TodoListContainer extends Component {
 
         let formattedQuery = query.replace(/ /g, "+");
 
-        console.log(`Cambio el filtro ${filter[index].key} filter: `, filter);
-        console.log(`Query: `, query);
-        console.log(`Query: `, formattedQuery);
-
         this.setState({
             filter
         },
@@ -74,13 +70,13 @@ class TodoListContainer extends Component {
                             <ListGroupItem
                                 tag={Toast}
                                 key={`task-${item.state}-${index}`}
-                                onClick={() => this.toTaskView(item._id)}
+                                onClick={() => this.toTaskView(item.id)}
                             >
                                 <ToastHeader>
                                     {item.title}
                                 </ToastHeader>
                                 <ToastBody>
-                                    <div><strong>{`ID: `}</strong>{item._id}</div>
+                                    <div><strong>{`ID: `}</strong>{item.id}</div>
                                     <div><strong>{`Description: `}</strong>{item.description}</div>
                                     {
                                         item.file ?
@@ -99,7 +95,6 @@ class TodoListContainer extends Component {
     }
 
     render() {
-        console.log('Render TodoListContainer this.props: ', this.props)
         const { pendingToDos, InProgressToDos, DoneToDos } = this.props;
 
         return (

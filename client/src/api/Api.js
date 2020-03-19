@@ -62,6 +62,6 @@ export const apiDelete = (url, id) => fetch(`${url}/${id}`, {
         if (responseJson.error) {
             return Promise.reject(responseJson.validation)
         }
-        // si el delete tuvo exito devuelve un objeto vacio responseJson = {}
-        return id;
+        
+        return responseJson;
     });

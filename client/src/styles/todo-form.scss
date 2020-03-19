@@ -1,0 +1,26 @@
+.todo-form {
+  color: #571b3c;
+
+  .card-header {
+    @extend .red-header;
+  }
+
+  .form-group {
+    padding-top: 15px;
+  }
+
+  .button-col {
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+
+  .form-link {
+    @extend .basic-row;
+    padding: 15px 0px;
+    justify-content: flex-start;
+
+    .col-auto {
+      padding-left: 0px;
+    }
+  }
+}

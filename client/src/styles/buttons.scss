@@ -1,0 +1,48 @@
+.back {
+  background-color: rgba(87, 27, 60, 1);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background-color: rgba(87, 27, 60, 0.8);
+    color: white;
+  }
+}
+
+.delete {
+  background-color: rgba(122, 30, 72, 1);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background-color: rgba(122, 30, 72, 0.8);
+    color: white;
+  }
+
+  svg {
+    vertical-align: initial;
+  }
+}
+
+.edit {
+  background-color: rgba(157, 32, 83, 1);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &.disabled {
+    &:hover {
+      background-color: rgba(157, 32, 83, 1);
+    }
+  }
+
+  &:hover {
+    background-color: rgba(157, 32, 83, 0.8);
+    color: white;
+  }
+}

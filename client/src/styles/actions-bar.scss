@@ -1,0 +1,48 @@
+.actions-bar {
+  @extend .basic-row;
+  margin-bottom: 20px;
+  padding: 10px;
+  flex-wrap: wrap !important;
+  background-color: #680e34;
+  font-weight: bold;
+
+  .col-actions-bar {
+    display: flex;
+    align-items: center;
+    padding-left: 0px;
+  }
+
+  .filter-col {
+    @extend .col-actions-bar;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    padding-left: 20px;
+    padding-right: 0px;
+  }
+
+  .label-col {
+    padding: 0px;
+  }
+
+  .input-col {
+    padding: 0px;
+    margin-left: 10px;
+  }
+
+  .btn-round {
+    border-radius: 50%;
+    line-height: 1;
+    padding: 10px;
+    background-color: #341931;
+    border-color: #341931;
+
+    &:hover {
+      background-color: #571b3c;
+      border-color: #571b3c;
+    }
+
+    svg {
+      vertical-align: initial;
+    }
+  }
+}

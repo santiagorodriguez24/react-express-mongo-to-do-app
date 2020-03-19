@@ -1,0 +1,22 @@
+.todos-card {
+  .card-header {
+    background-color: #9a151a;
+    font-weight: bold;
+  }
+
+  .toast {
+    max-width: none;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  .toast-header {
+    color: #341931;
+  }
+
+  .toast-body {
+    color: #571b3c;
+  }
+}

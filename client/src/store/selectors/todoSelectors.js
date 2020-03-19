@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 export const getTodos = state => state.todos;
 
 export const getTodoById = createSelector(
-    (state, props) => state.todos.find(todo => todo._id === props.id),
+    (state, props) => state.todos.find(todo => todo.id.toString() === props.id),
     todo => todo
 );
 

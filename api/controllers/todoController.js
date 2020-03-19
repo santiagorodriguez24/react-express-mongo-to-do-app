@@ -2,7 +2,7 @@
 const Todo = require('../models/todoModel');
 const fs = require('fs'); // paquete de node
 const path = require('path'); // paquete de node
-const ObjectId = require('mongoose').Types.ObjectId; 
+const ObjectId = require('mongoose').Types.ObjectId;
 
 exports.getTodos = function (req, res) {
 
@@ -11,7 +11,7 @@ exports.getTodos = function (req, res) {
     let query = {};
 
     if (id) {
-        query._id = new ObjectId(id);
+        query.id = id;
     }
 
     if (title) {
@@ -25,8 +25,6 @@ exports.getTodos = function (req, res) {
     if (state) {
         query.state = state;
     }
-
-    console.log('Query Server: ', query);
 
     // en el find se puede especificar una condicion de busqueda o filtro, si no se especifica ({}) trae todos los registros
     Todo.find(query)
@@ -147,13 +145,9 @@ exports.updateTodo = function (req, res) {
     let id = req.params.id;
     let body = req.body;
 
-    console.log('Req body: ', req.body);
-    console.log('Req files: ', req.files);
-
-    Todo.findById(id, (error, todoDB) => {
+    Todo.findOne({ id: id }, (error, todoDB) => {
 
         if (error) {
-            console.log('UPDATE Error al encontrar el todo');
             return res.status(400).json({
                 ok: false,
                 error
@@ -172,14 +166,12 @@ exports.updateTodo = function (req, res) {
             todoDB.save((error, SavedTodo) => {
                 // si sucede un error recibo el error, si se guarda recibo el Todo creado con su id incluido.
                 if (error) {
-                    console.log('UPDATE sin Archivos Error al Guardado');
                     return res.status(400).json({
                         ok: false,
                         error
                     });
                 }
 
-                console.log('UPDATE sin Archivos se guarda con exito')
                 //  envio el objeto usuario como respuesta, el estatus 200 esta implicito si no se especifica
                 res.json({
                     ok: true,
@@ -191,7 +183,7 @@ exports.updateTodo = function (req, res) {
         }
         else {
             // Archivo es el nombre de la propiedad que tendra los archivos pasados en el body del request
-            let file = req.files.archivo;
+            let file = req.files.file;
 
             let dividedName = file.name.split('.'); // separo el string en un arreglo, tomando como separador el punto
             let fileExtension = dividedName[dividedName.length - 1]; // tomo lo que esta despues del ultimo punto
@@ -236,7 +228,6 @@ exports.updateTodo = function (req, res) {
                 todoDB.save((error, SavedTodo) => {
                     // si sucede un error recibo el error, si se guarda recibo el Todo creado con su id incluido.
                     if (error) {
-                        console.log('UPDATE con Archivos Error al Guardado');
 
                         deleteFile(`uploads/${fileName}`);
 
@@ -246,7 +237,6 @@ exports.updateTodo = function (req, res) {
                         });
                     }
 
-                    console.log('UPDATE con Archivos se guarda con exito')
                     //  envio el objeto usuario como respuesta, el estatus 200 esta implicito si no se especifica
                     res.json({
                         ok: true,
@@ -269,7 +259,7 @@ exports.deleteTodo = function (req, res) {
     let id = req.params.id;
 
     // eliminacion fisica, registro deja de existir en la base de datos.
-    Todo.findByIdAndRemove(id, (error, deletedTodo) => {
+    Todo.findOneAndDelete({ id: id }, (error, deletedTodo) => {
 
         if (error) {
             return res.status(400).json({
@@ -280,6 +270,11 @@ exports.deleteTodo = function (req, res) {
 
         // Si encuentra el Todo borra el registro y lo devuelve como segundo parametro de esta funcion callback
         if (deletedTodo) {
+
+            if (deletedTodo.file) {
+                deleteFile(deletedTodo.file);
+            }
+
             // si se borra 
             res.json({
                 ok: true,

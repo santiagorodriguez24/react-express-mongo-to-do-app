@@ -1,7 +1,9 @@
-html, body {
+body {
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
+  height: 100%;
   margin: 0;
+  background-color: #280904 !important;
   display: flex;
   flex-direction: column;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",

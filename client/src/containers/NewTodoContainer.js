@@ -11,8 +11,6 @@ import { SubmissionError } from 'redux-form';
 class NewTodoContainer extends Component {
 
     handleSubmit = (values) => {
-        console.log('New container submit: ', values);
-
         const formData = new FormData();
         formData.append("title", values.title);
         formData.append("description", values.description);
@@ -40,6 +38,7 @@ class NewTodoContainer extends Component {
     renderBody = () => {
         return (
             <ToDoForm
+                isAdd={true}
                 onSubmit={this.handleSubmit}
                 onSubmitSuccess={this.handleSubmitSuccess}
                 onBack={this.handleOnBack}

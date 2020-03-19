@@ -22,7 +22,7 @@ class TodoContainer extends Component {
     handleSubmit = (values) => {
         // convierto el objeto recibido en un string
         console.log('Todo Container OnSubmit: ', values);
-        const { _id } = values;
+        const { id } = values;
 
         const formData = new FormData();
         formData.append("title", values.title);
@@ -37,17 +37,15 @@ class TodoContainer extends Component {
         para que la propiedad submitting de redux-form se setee correctamente tenemos que devolver una promesa, y 
         el fetch que hace el PUT devuelve una
         */
-        return this.props.updateTodo(_id, formData)
+        return this.props.updateTodo(id, formData)
             .then(result => {
                 console.log("Se resolvio con exito", result)
             }).catch(error => {
-                console.log("Error", error)
                 throw new SubmissionError(error);
             });
     }
 
     handleOnBack = () => {
-        console.log('handleOnBack: ');
         this.props.history.goBack();
     }
 
@@ -56,12 +54,10 @@ class TodoContainer extends Component {
     }
 
     handleOnSubmitSuccess = () => {
-        console.log('handleOnSubmitSuccess: ');
         this.props.history.goBack();
     }
 
     handleOnDelete = id => {
-        console.log('handleOnDelete');
         this.props.deleteTodo(id).then(response => {
             // si se resuelve la promise vuelvo al listado del cliente
             this.props.history.goBack();
@@ -97,9 +93,10 @@ class TodoContainer extends Component {
     }
 
     render() {
+
         return (
             <AppFrame
-                header={`Task - Id: ${this.props.id}`}
+                header={`Task - ID: ${this.props.id}`}
                 body={
                     this.renderBody()
                 }

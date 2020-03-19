@@ -9,52 +9,47 @@ const ActionsBar = props => {
 
     return (
         <Row className='actions-bar'>
-            <Col xs="auto" className='col-header'>
+            <Col xs="12" sm='12' md="auto" className='col-actions-bar'>
                 <Button className='btn-round' id='add-button' onClick={() => onAdd()}>
                     <FaPlus />
                 </Button>
+                <UncontrolledTooltip placement="right" target="add-button">
+                    {'Add Task'}
+                </UncontrolledTooltip>
             </Col>
-            <UncontrolledTooltip placement="right" target="add-button">
-                {'Add Task'}
-            </UncontrolledTooltip>
-            {
-                filters.map((filter, index) => {
-                    if (filter.type === 'select') {
-                        return (
-                            <Col xs="auto" className='col-header' key={`filter-${index}`}>
-                                <span>{`${filter.label}`}</span>
-                                <Input
-                                    type={'select'}
-                                    name={filter.name}
-                                    id={`${filter.name}-${index}`}
-                                    placeholder={filter.placeholder}
-                                    onChange={e => filter.onChange(e, index)}
-                                    className='filter-input'
-                                >
-                                    {
-                                        renderOptions(filter.options, filter.name)
-                                    }
-                                </Input>
+            <Col className='col-actions-bar'>
+                <Row className='basic-row'>
+                    {
+                        filters.map((filter, index) => (
+                            <Col xs="12" sm='12' md='6' lg='3' className='filter-col' key={`filter-${index}`}>
+                                <Row className='basic-row'>
+                                    <Col xs='auto' className='label-col'>
+                                        <span>{`${filter.label}`}</span>
+                                    </Col>
+                                    <Col className='input-col'>
+                                        <Input
+                                            type={filter.type ? filter.type : "text"}
+                                            name={filter.name}
+                                            id={`${filter.name}-${index}`}
+                                            placeholder={filter.placeholder}
+                                            onChange={e => filter.onChange(e, index)}
+                                            className='filter-input'
+                                        >
+                                            {
+                                                filter.type === 'select' ?
+                                                    renderOptions(filter.options, filter.name)
+                                                    :
+                                                    null
+                                            }
+                                        </Input>
+                                    </Col>
+                                </Row>
                             </Col>
-                        );
-                    } else {
-                        return (
-                            <Col xs="auto" className='col-header' key={`filter-${index}`}>
-                                <span>{`${filter.label}`}</span>
-                                <Input
-                                    type={filter.type ? filter.type : "text"}
-                                    name={filter.name}
-                                    id={`${filter.name}-${index}`}
-                                    placeholder={filter.placeholder}
-                                    onChange={e => filter.onChange(e, index)}
-                                    className='filter-input'
-                                />
-                            </Col>
-                        );
+                        )
+                        )
                     }
-                }
-                )
-            }
+                </Row>
+            </Col>
         </Row>
     );
 };

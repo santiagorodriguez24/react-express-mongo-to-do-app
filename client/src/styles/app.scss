@@ -1,7 +1,13 @@
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+@import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
 
 // Libraries
 @import "bootstrap/scss/bootstrap.scss";
 
 @import "to-do.scss";
+
+// Components
+@import "buttons.scss";
+@import "todo-form.scss";
+@import "actions-bar.scss";
+@import "todo-list.scss";

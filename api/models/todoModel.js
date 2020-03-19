@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const AutoIncrement = require('mongoose-sequence')(mongoose);
 
 let ValidStates = {
     values: ['PENDING', 'IN PROGRESS', 'DONE'],
@@ -16,6 +17,10 @@ let Schema = mongoose.Schema;
 let todoSchema = new Schema(
     // defino los campos que tendra un objeto user de la coleccion y sus reglas: el tipo y si es requerido o no
     {
+        id: {
+            type: Number,
+            unique: true,
+        },
         title: {
             type: String,
             required: [true, 'Title is required.']
@@ -38,5 +43,7 @@ let todoSchema = new Schema(
         }
     }
 );
+
+todoSchema.plugin(AutoIncrement, { id: 'todo_seq', inc_field: 'id' });
 
 module.exports = mongoose.model('todo', todoSchema);
