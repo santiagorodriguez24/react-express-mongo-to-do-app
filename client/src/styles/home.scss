@@ -1,0 +1,8 @@
+.home-container {
+  margin: 0px;
+
+  .row {
+    @extend .basic-row;
+    justify-content: center;
+  }
+}

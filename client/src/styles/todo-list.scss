@@ -4,6 +4,25 @@
     font-weight: bold;
   }
 
+  .row-list-container {
+    margin: 0px;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap !important;
+  }
+
+  .is-dragging-over {
+    background-color: rgba(242, 208, 160, 0.8);
+    border-radius: 20px;
+  }
+
+  .is-dragging {
+    background-color: rgba(252, 75, 42, 0.4);
+    cursor: grabbing;
+    cursor: -moz-grabbing;
+    cursor: -webkit-grabbing;
+  }
+
   .toast {
     max-width: none;
 

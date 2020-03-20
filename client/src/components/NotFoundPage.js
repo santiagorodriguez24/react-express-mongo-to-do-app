@@ -7,12 +7,12 @@ class NotFoundPage extends Component {
     render() {
         return (
             <AppFrame
-                header={'Pagina no encontrada'}
+                header={'Page not Found'}
                 body={
                     <Row className='not-found-row'>
                         <Link to='/'>
                             <Button color='secondary'>
-                                {'Volver a Home'}
+                                {'Back to Home'}
                             </Button>
                         </Link>
                     </Row>

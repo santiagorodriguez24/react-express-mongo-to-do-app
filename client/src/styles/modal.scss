@@ -1,0 +1,26 @@
+.message-modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #571b3c;
+
+  .modal-content {
+    border: none;
+  }
+
+  .modal-header {
+    @extend .red-header;
+    .close {
+      color: white;
+    }
+  }
+
+  .modal-body {
+    margin: 15px 0px;
+  }
+
+  .modal-footer {
+    display: flex;
+    justify-content: space-between;
+  }
+}

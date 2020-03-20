@@ -9,9 +9,9 @@ export const apiPost = (url, obj) => fetch(`${url}`, {
 }).then(response => response.json())
     .then(responseJson => {
         if (responseJson.error) {
-            return Promise.reject(responseJson.validation)
+            return Promise.reject(responseJson)
         }
-        return responseJson; // si todo anduvo bien retorna el nuevo cliente
+        return responseJson;
     });
 
 export const apiPostFormData = (url, formData) => fetch(url, {
@@ -21,7 +21,7 @@ export const apiPostFormData = (url, formData) => fetch(url, {
 }).then(response => response.json())
     .then(responseJson => {
         if (responseJson.error) {
-            return Promise.reject(responseJson.validation)
+            return Promise.reject(responseJson)
         }
 
         return responseJson;
@@ -36,7 +36,7 @@ export const apiPut = (url, id, obj) => fetch(`${url}/${id}`, {
 }).then(response => response.json())
     .then(responseJson => {
         if (responseJson.error) {
-            return Promise.reject(responseJson.validation)
+            return Promise.reject(responseJson)
         }
         return responseJson;
     });
@@ -47,7 +47,7 @@ export const apiPutFormData = (url, id, formData) => fetch(`${url}/${id}`, {
 }).then(response => response.json())
     .then(responseJson => {
         if (responseJson.error) {
-            return Promise.reject(responseJson.validation)
+            return Promise.reject(responseJson)
         }
         return responseJson;
     });
@@ -60,8 +60,8 @@ export const apiDelete = (url, id) => fetch(`${url}/${id}`, {
 }).then(response => response.json())
     .then(responseJson => {
         if (responseJson.error) {
-            return Promise.reject(responseJson.validation)
+            return Promise.reject(responseJson)
         }
-        
+
         return responseJson;
     });

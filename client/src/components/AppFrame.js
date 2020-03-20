@@ -1,13 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import AppHeader from './AppHeader';
+import { Container } from 'reactstrap';
 
 const AppFrame = props => {
     const { header, body } = props;
     return (
         <div className="app-frame">
             <AppHeader title={header}></AppHeader>
-            {body}
+            <Container fluid >
+                {body}
+            </Container>
         </div>
     );
 };

@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { reduxForm, Field } from 'redux-form'; // importamos el HOC que conecta el formulario con redux-form.
+import { reduxForm, Field } from 'redux-form';
 import { setPropsToInitialValues } from '../HOCs/setPropsToInitialValues';
 import { Prompt } from 'react-router-dom';
-import { Container, Form, FormGroup, Label, Input, FormText, FormFeedback, Button, Row, Col, Card, CardHeader, CardBody, CardFooter } from 'reactstrap';
+import { Form, FormGroup, Label, Input, FormText, FormFeedback, Button, Row, Col, Card, CardHeader, CardBody, CardFooter } from 'reactstrap';
 import { stateOptions } from '../constants/options';
 import { renderOptions } from '../utils/utils';
 import { FaFileUpload, FaTimes } from 'react-icons/fa';
 
 const validate = values => {
-    const error = {}; // objeto con los errores de validacion encontrados. El nombre de las claves es igual al campo con error
+    const error = {};
 
     if (!values.title) {
         error.title = 'The title field is required.'
@@ -23,7 +23,7 @@ const validate = values => {
         error.state = 'You must select a state.'
     }
 
-    return error; // si no hay error se retorna un objeto vacio
+    return error;
 };
 
 export class ToDoForm extends Component {
@@ -31,11 +31,10 @@ export class ToDoForm extends Component {
         super(props);
 
         this.state = {
-            showFileLink: props.isAdd ? false : props.file ? true : false
+            showFileLink: props.isAdd ? false : props.file ? true : false,
+            savedFile: props.file
         }
 
-        console.log('constructor props: ', props);
-        console.log('constructor state: ', this.state);
     }
 
     componentDidMount() {
@@ -44,12 +43,24 @@ export class ToDoForm extends Component {
         }
     }
 
+    static getDerivedStateFromProps(nextProps, prevState) {
+
+        if (nextProps.file !== prevState.savedFile) {
+            return {
+                showFileLink: nextProps.isAdd ? false : nextProps.file ? true : false,
+                savedFile: nextProps.file
+            };
+        }
+
+        return null;
+    }
+
     renderMyField = ({ input, meta, type, label, name, withFocus, placeholder }) => (
         <div>
             <FormGroup>
                 <Label for={name}>{label}</Label>
                 <Input
-                    {...input} // le pasamos todas las propiedades el input original
+                    {...input}
                     id={name}
                     placeholder={placeholder}
                     type={type ? type : "text"}
@@ -138,112 +149,105 @@ export class ToDoForm extends Component {
     }
 
     render() {
-        // es importante que la funcion pasada a onSubmit se llame handleSubmit ya que es una funcion provista por redux-form
         const { handleSubmit, submitting, onBack, pristine, submitSucceeded, id, file, isAdd } = this.props;
 
         return (
-            <Container fluid className='todo-form'>
-                <Card>
-                    <CardHeader >
-                        {isAdd ? 'Create Task' : `Edit Task: ${id}`}
-                    </CardHeader>
+            <Card className='todo-form'>
+                <CardHeader >
+                    {isAdd ? 'Create Task' : `Edit Task: ${id}`}
+                </CardHeader>
 
-                    <CardBody>
-                        <Form
-                            encType="multipart/form-data"
-                            method="post"
-                            onSubmit={handleSubmit}
-                        >
-                            {/* El componente Field es el que genera acciones e impacta en el reducer de redux - form */}
-                            <Field
-                                label="Title*"
-                                name="title"
-                                placeholder="Enter a title for the task."
-                                component={this.renderMyField} // para poder mostrar la validacion no puedo usar un input comun
-                                withFocus={true}
-                            />
+                <CardBody>
+                    <Form encType="multipart/form-data">
+                        <Field
+                            label="Title*"
+                            name="title"
+                            placeholder="Enter a title for the task."
+                            component={this.renderMyField}
+                            withFocus={true}
+                        />
 
-                            <Field
-                                label="Description*"
-                                name="description"
-                                type="textarea"
-                                placeholder="Add a description to the task."
-                                component={this.renderMyField}
-                            />
+                        <Field
+                            label="Description*"
+                            name="description"
+                            type="textarea"
+                            placeholder="Add a description to the task."
+                            component={this.renderMyField}
+                        />
 
-                            <Field
-                                label="State*"
-                                name="state"
-                                options={stateOptions}
-                                placeholder="Select a state for the task."
-                                component={this.renderSelectField}
-                            />
+                        <Field
+                            label="State*"
+                            name="state"
+                            options={stateOptions}
+                            placeholder="Select a state for the task."
+                            component={this.renderSelectField}
+                        />
 
-                            {
-                                isAdd || !file ?
+                        {
+                            isAdd || !file ?
+                                <Field
+                                    label="File"
+                                    name="file"
+                                    helpText={"You can attach a file to the task."}
+                                    component={this.renderFileInput}
+                                />
+                                :
+                                this.state.showFileLink ?
+                                    <Row className='form-link'>
+                                        <Col xs='auto'>
+                                            <span>File: </span>&nbsp;&nbsp;
+                                                <a href={`/${file}`} target="_blank" rel="noopener noreferrer">{file ? file.replace("uploads/", "") : ""}</a>
+                                        </Col>
+                                        <Col xs='auto'>
+                                            <Button color="" className='delete' style={{ marginLeft: '10px' }} onClick={() => this.handleFileLink()}>
+                                                <FaFileUpload style={{ marginRight: '10px' }} /> {'Change File'}
+                                            </Button>
+                                        </Col>
+                                    </Row>
+                                    :
                                     <Field
                                         label="File"
                                         name="file"
-                                        helpText={"You can attach a file to the task."}
+                                        helpText={"You can change the file attached to this task.."}
+                                        cancelable={true}
                                         component={this.renderFileInput}
                                     />
-                                    :
-                                    this.state.showFileLink ?
-                                        <Row className='form-link'>
-                                            <Col xs='auto'>
-                                                <span>File: </span>&nbsp;&nbsp;
-                                                <a href={`/${file}`} target="_blank" rel="noopener noreferrer">{file ? file.replace("uploads/", "") : ""}</a>
-                                            </Col>
-                                            <Col xs='auto'>
-                                                <Button color="" className='delete' style={{ marginLeft: '10px' }} onClick={() => this.handleFileLink()}>
-                                                    <FaFileUpload style={{ marginRight: '10px' }} /> {'Change File'}
-                                                </Button>
-                                            </Col>
-                                        </Row>
-                                        :
-                                        <Field
-                                            label="File"
-                                            name="file"
-                                            helpText={"You can change the file attached to this task.."}
-                                            cancelable={true}
-                                            component={this.renderFileInput}
-                                        />
-                            }
+                        }
 
-                            <Prompt
-                                when={!pristine && !submitSucceeded}
-                                message="The data entered will be lost if you continue."
+                        <Prompt
+                            when={!pristine && !submitSucceeded}
+                            message="The data entered will be lost if you continue."
+                        >
+                        </Prompt>
+                    </Form>
+                </CardBody>
+
+                <CardFooter>
+                    <Row className='basic-row'>
+                        <Col xs='12' sm='6' md='4' className='button-col'>
+                            <Button
+                                color="" className='edit' block
+                                onClick={handleSubmit}
+                                type='submit'
+                                disabled={pristine || submitting}
                             >
-                            </Prompt>
-                        </Form>
-                    </CardBody>
+                                {'Save'}
+                            </Button>
+                        </Col>
+                        <Col xs='12' sm='6' md='4' className='button-col'>
+                            <Button
+                                color="" className='back' block
+                                type='button'
+                                onClick={onBack}
+                                disabled={submitting}
+                            >
+                                {'Cancel'}
+                            </Button>
+                        </Col>
+                    </Row>
+                </CardFooter>
 
-                    <CardFooter>
-                        <Row className='basic-row'>
-                            <Col xs='12' sm='6' md='4' className='button-col'>
-                                <Button
-                                    color="" className='edit' block
-                                    type='submit'
-                                    disabled={pristine || submitting}
-                                >
-                                    {'Save'}
-                                </Button>
-                            </Col>
-                            <Col xs='12' sm='6' md='4' className='button-col'>
-                                <Button
-                                    color="" className='back' block
-                                    type='button' // Si no le ponemos el type button por defecto se ejecuta como submit
-                                    onClick={onBack}
-                                    disabled={submitting}
-                                >
-                                    {'Cancel'}
-                                </Button>
-                            </Col>
-                        </Row>
-                    </CardFooter>
-
-                </Card>
-            </Container>
+            </Card>
         );
     }
 }
@@ -258,6 +262,6 @@ ToDoForm.propTypes = {
     isAdd: PropTypes.bool
 };
 
-// el nombre de nuestro formulario pasado al HOC reduxForm debe ser unico en toda la app
-// Utilizamos un HOC que mapea las propiedades a initialValues
+// The name of our form passed to the HOC redux Form must be unique throughout the app.
+// We use a HOC that maps properties to initialValues.
 export default setPropsToInitialValues(reduxForm({ form: 'ToDoForm', validate })(ToDoForm));

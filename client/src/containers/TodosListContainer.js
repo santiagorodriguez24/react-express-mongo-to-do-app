@@ -1,14 +1,15 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { withRouter } from 'react-router-dom';
 import AppFrame from '../components/AppFrame';
 import ActionsBar from '../components/ActionsBar';
-import { Container, Row, Col, Card, CardHeader, CardBody, ListGroup, ListGroupItem, Toast, ToastHeader, ToastBody } from 'reactstrap';
+import ErrorPopUp from '../components/ErrorPopUp';
+import { Row, Col, Card, CardHeader, CardBody, ToastHeader, ToastBody } from 'reactstrap';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchTodos } from '../store/actions/fetchTodosAction';
-import { getTodos } from '../store/selectors/todoSelectors';
-import { getTodosByState } from '../store/selectors/todoSelectors';
+import { fetchTodos, updateTodo, changeTodoProps } from '../store/actions/ToDoActions';
+import { getTodos, getError, getTodosByState } from '../store/selectors/ToDoSelectors';
 import { stateOptions } from '../constants/options';
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 class TodoListContainer extends Component {
     constructor() {
@@ -42,7 +43,7 @@ class TodoListContainer extends Component {
 
         filter.forEach(element => {
             if (element.value) {
-                query = query ? `${query}&${element.key}=${element.value}` : `?${element.key}=${element.value}`; 
+                query = query ? `${query}&${element.key}=${element.value}` : `?${element.key}=${element.value}`;
             }
         });
 
@@ -51,7 +52,7 @@ class TodoListContainer extends Component {
         this.setState({
             filter
         },
-        () =>  this.props.fetchTodos(formattedQuery)
+            () => this.props.fetchTodos(formattedQuery)
         )
 
     }
@@ -60,48 +61,73 @@ class TodoListContainer extends Component {
         this.props.history.push(`/todos/${id}`);
     }
 
-    renderList = (items) => {
+    onDragEnd = (result) => {
+        const { destination, source, draggableId: id } = result;
 
-        return (
-            <ListGroup>
-                {
-                    items.map((item, index) => {
-                        return (
-                            <ListGroupItem
-                                tag={Toast}
-                                key={`task-${item.state}-${index}`}
-                                onClick={() => this.toTaskView(item.id)}
-                            >
-                                <ToastHeader>
-                                    {item.title}
-                                </ToastHeader>
-                                <ToastBody>
-                                    <div><strong>{`ID: `}</strong>{item.id}</div>
-                                    <div><strong>{`Description: `}</strong>{item.description}</div>
-                                    {
-                                        item.file ?
-                                            <div><strong>{`File: `}</strong>{item.file.replace("uploads/", "")}</div>
-                                            :
-                                            null
-                                    }
-                                </ToastBody>
-                            </ListGroupItem>
-                        );
-                    })
-                }
-            </ListGroup>
-        );
+        if (!destination || (source.droppableId === destination.droppableId)) {
+            return;
+        }
+
+        const formData = new FormData();
+
+        formData.append("state", destination.droppableId);
+
+        return this.props.updateTodo(id, formData)
+            .then(result => {
+                console.log("Task updated.", result)
+            }).catch(error => {
+                console.log("Failed to update task.", error)
+            });
+    }
+
+
+    renderList = (items) => {
+        let itemClass = 'list-group-item toast fade show';
+
+        let result = items.map((item, index) => {
+            return (
+                <Draggable draggableId={item.id.toString()} index={index} key={`task-${item.state}-${index}`}>
+                    {(provided, snapshot) => (
+                        <div
+                            onClick={() => this.toTaskView(item.id)}
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                            className={snapshot.isDragging ? `${itemClass} is-dragging` : itemClass}
+                        >
+                            <ToastHeader>
+                                {item.title}
+                            </ToastHeader>
+                            <ToastBody>
+                                <div><strong>{`ID: `}</strong>{item.id}</div>
+                                <div><strong>{`Description: `}</strong>{item.description}</div>
+                                {
+                                    item.file ?
+                                        <div><strong>{`File: `}</strong>{item.file.replace("uploads/", "")}</div>
+                                        :
+                                        null
+                                }
+                            </ToastBody>
+                        </div>
+                    )}
+                </Draggable>
+            );
+        });
+
+        return (result);
 
     }
 
     render() {
         const { pendingToDos, InProgressToDos, DoneToDos } = this.props;
 
+        const TaskListArray = [pendingToDos, InProgressToDos, DoneToDos];
+
         return (
             <AppFrame
                 header={'Things To Do'}
                 body={
-                    <Container fluid>
+                    <Fragment>
                         <ActionsBar
                             onAdd={this.handleAddNew}
                             filters={[
@@ -111,52 +137,64 @@ class TodoListContainer extends Component {
                                 { name: 'state', label: 'State: ', type: 'select', options: stateOptions, placeholder: 'Filter by state', onChange: this.onChangeFilter }
                             ]}
                         />
-                        <Row>
-                            <Col>
-                                <Card className='todos-card'>
-                                    <CardHeader>
-                                        {stateOptions[0]}
-                                    </CardHeader>
-                                    <CardBody>
-                                        {this.renderList(pendingToDos)}
-                                    </CardBody>
-                                </Card>
-                            </Col>
-                            <Col>
-                                <Card className='todos-card'>
-                                    <CardHeader>
-                                        {stateOptions[1]}
-                                    </CardHeader>
-                                    <CardBody>
-                                        {this.renderList(InProgressToDos)}
-                                    </CardBody>
-                                </Card>
-                            </Col>
-                            <Col>
-                                <Card className='todos-card'>
-                                    <CardHeader>
-                                        {stateOptions[2]}
-                                    </CardHeader>
-                                    <CardBody>
-                                        {this.renderList(DoneToDos)}
-                                    </CardBody>
-                                </Card>
-                            </Col>
-                        </Row>
-                    </Container>
+                        <DragDropContext onDragEnd={this.onDragEnd}>
+                            <Row className='row-list-container'>
+                                {
+                                    TaskListArray.map((taskList, index) => {
+                                        return (
+                                            <Col key={`taskList-key-${index}`}>
+                                                <Card className='todos-card'>
+                                                    <CardHeader>
+                                                        {stateOptions[index]}
+                                                    </CardHeader>
+                                                    <CardBody>
+                                                        <Droppable droppableId={stateOptions[index]}>
+                                                            {(provided, snapshot) => (
+                                                                <div
+                                                                    ref={provided.innerRef}
+                                                                    {...provided.droppableProps}
+                                                                    className={snapshot.isDraggingOver ? 'list-group is-dragging-over' : 'list-group'}
+                                                                >
+                                                                    {this.renderList(taskList)}
+                                                                    {provided.placeholder}
+                                                                </div>
+                                                            )}
+                                                        </Droppable>
+                                                    </CardBody>
+                                                </Card>
+                                            </Col>
+                                        );
+                                    })
+                                }
+                            </Row>
+                        </DragDropContext>
+                        {
+                            // if some action get an error handle this
+                            this.props.error && this.props.error !== '' ?
+                                <ErrorPopUp
+                                    message={this.props.error}
+                                    reloadPage={() => document.location.reload()}
+                                    removeErrorProp={this.props.changeTodoProps}
+                                />
+                                :
+                                null
+                        }
+                    </Fragment>
                 }
             />
         );
     }
 }
 
-
 TodoListContainer.propTypes = {
     fetchTodos: PropTypes.func.isRequired,
+    updateTodo: PropTypes.func.isRequired,
+    changeTodoProps: PropTypes.func.isRequired,
     todos: PropTypes.array.isRequired,
     pendingToDos: PropTypes.array.isRequired,
     InProgressToDos: PropTypes.array.isRequired,
-    DoneToDos: PropTypes.array.isRequired
+    DoneToDos: PropTypes.array.isRequired,
+    error: PropTypes.string.isRequired
 };
 
 TodoListContainer.defaultProps = {
@@ -171,10 +209,13 @@ const mapStateToProps = state => ({
     pendingToDos: getTodosByState(state, stateOptions[0]),
     InProgressToDos: getTodosByState(state, stateOptions[1]),
     DoneToDos: getTodosByState(state, stateOptions[2]),
+    error: getError(state)
 });
 
 const mapDispatchToProps = {
-    fetchTodos
+    fetchTodos,
+    updateTodo,
+    changeTodoProps
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(TodoListContainer));

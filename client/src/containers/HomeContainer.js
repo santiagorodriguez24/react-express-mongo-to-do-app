@@ -6,7 +6,6 @@ import { Jumbotron, Container, Row, Button } from 'reactstrap';
 class HomeContainer extends Component {
 
     handleOnClick = () => {
-        // siempre que nuestro componente este dentro del componente Router puedo acceder history
         this.props.history.push('/todos');
     }
 
@@ -40,7 +39,4 @@ class HomeContainer extends Component {
     }
 }
 
-/* el decorator withRouter agrega funcionalidad a este componente, permite que acceda a history, location y match 
-sin importar la forma en que el componente fue invocado (si su renderizacion es el resultado de una funcion sin esto no anda).
-*/
 export default withRouter(HomeContainer);

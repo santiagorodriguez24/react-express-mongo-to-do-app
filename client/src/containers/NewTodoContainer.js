@@ -1,11 +1,12 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import AppFrame from '../components/AppFrame';
 import ToDoForm from '../components/ToDoForm';
+import ErrorPopUp from '../components/ErrorPopUp';
+import { getError } from '../store/selectors/ToDoSelectors';
 import { withRouter } from 'react-router-dom';
-import { fetchTodos } from '../store/actions/fetchTodosAction';
-import { insertTodo } from '../store/actions/insertTodoAction';
+import { fetchTodos, insertTodo, changeTodoProps } from '../store/actions/ToDoActions';
 import { SubmissionError } from 'redux-form';
 
 class NewTodoContainer extends Component {
@@ -21,7 +22,7 @@ class NewTodoContainer extends Component {
         }
 
         return this.props.insertTodo(formData).then(result => {
-            console.log("Se resolvio con exito", result)
+            console.log("The task was created.", result)
         }).catch(error => {
             throw new SubmissionError(error);
         });
@@ -35,34 +36,51 @@ class NewTodoContainer extends Component {
         this.props.history.goBack();
     }
 
-    renderBody = () => {
-        return (
-            <ToDoForm
-                isAdd={true}
-                onSubmit={this.handleSubmit}
-                onSubmitSuccess={this.handleSubmitSuccess}
-                onBack={this.handleOnBack}
-            />
-        );
-    }
-
     render() {
         return (
             <AppFrame
                 header={'Creacion de un To Do'}
-                body={this.renderBody()}
+                body={
+                    <Fragment>
+                        <ToDoForm
+                            isAdd={true}
+                            onSubmit={this.handleSubmit}
+                            onSubmitSuccess={this.handleSubmitSuccess}
+                            onBack={this.handleOnBack}
+                        />
+                        {
+                            // if some action get an error handle this
+                            this.props.error && this.props.error !== '' ?
+                                <ErrorPopUp
+                                    message={this.props.error}
+                                    reloadPage={() => document.location.reload()}
+                                    removeErrorProp={this.props.changeTodoProps}
+                                />
+                                :
+                                null
+                        }
+                    </Fragment>
+                }
             />
         );
     }
 }
 
 NewTodoContainer.propTypes = {
+    fetchTodos: PropTypes.func.isRequired,
     insertTodo: PropTypes.func.isRequired,
+    changeTodoProps: PropTypes.func.isRequired,
+    error: PropTypes.string.isRequired
 };
+
+const mapStateToProps = state => ({
+    error: getError(state)
+});
 
 const mapDispatchToProps = {
     fetchTodos,
-    insertTodo
+    insertTodo,
+    changeTodoProps
 };
 
-export default withRouter(connect(null, mapDispatchToProps)(NewTodoContainer));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(NewTodoContainer));

@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Container, Row, Col, Button, Card, CardHeader, CardBody, CardFooter, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Row, Col, Button, Card, CardHeader, CardBody, CardFooter, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { FaEdit, FaTrashAlt, FaUndo } from 'react-icons/fa';
 
 const ToDoView = props => {
@@ -11,8 +11,8 @@ const ToDoView = props => {
     const toggle = () => setModalOpen(!modalOpen);
 
     return (
-        <Container fluid className='todo-view'>
-            <Card>
+        <Fragment>
+            <Card className='todo-view'>
                 <CardHeader>
                     {title}
                 </CardHeader>
@@ -39,7 +39,7 @@ const ToDoView = props => {
                     </Button>
                 </CardFooter>
             </Card>
-            <Modal isOpen={modalOpen} toggle={toggle} centered={true} className='delete-modal'>
+            <Modal isOpen={modalOpen} toggle={toggle} centered={true} className='message-modal'>
                 <ModalHeader toggle={toggle}>{'Delete Task'}</ModalHeader>
                 <ModalBody>
                     <Row>
@@ -57,11 +57,17 @@ const ToDoView = props => {
                     </Row>
                 </ModalBody>
                 <ModalFooter>
-                    <Button color="" size="md" className='delete' onClick={() => onDelete(id)}>Delete</Button>{' '}
-                    <Button color="" size="md" className='back' onClick={toggle}>Cancel</Button>
+                    <Row className='basic-row'>
+                        <Col xs='6'>
+                            <Button color="" block className='delete' onClick={() => onDelete(id)}>Delete</Button>
+                        </Col>
+                        <Col xs='6'>
+                            <Button color="" block className='back' onClick={toggle}>Cancel</Button>
+                        </Col>
+                    </Row>
                 </ModalFooter>
             </Modal>
-        </Container>
+        </Fragment>
     );
 };
 

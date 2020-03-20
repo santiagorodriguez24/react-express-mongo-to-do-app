@@ -57,33 +57,11 @@
   }
 }
 
-.delete-modal {
-  .modal-content {
-    border: none;
-  }
-
-  .modal-header {
-    @extend .red-header;
-    .close {
-      color: white;
-    }
-  }
-}
-
 .todo-logo {
   border-style: none;
   vertical-align: top;
   max-height: 80px;
   width: auto;
-}
-
-.home-container {
-  margin: 0px;
-
-  .row {
-    @extend .basic-row;
-    justify-content: center;
-  }
 }
 
 .not-found-row {
