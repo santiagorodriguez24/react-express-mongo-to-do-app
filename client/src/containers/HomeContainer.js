@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import AppFrame from '../components/AppFrame';
-import { Jumbotron, Container, Row, Button } from 'reactstrap';
+import { Card, CardHeader, CardBody, CardFooter, Button, Row } from 'reactstrap';
+import { FaTasks } from 'react-icons/fa';
 
 class HomeContainer extends Component {
 
@@ -14,24 +15,36 @@ class HomeContainer extends Component {
             <AppFrame
                 header={'Home'}
                 body={
-                    <div className='home-container'>
-                        <Jumbotron fluid>
-                            <Container fluid>
-                                <h1 className="display-5">Welcome to the To Do App!</h1>
-                                <p className="lead">Here you can create, edit and follow the progress status of pending tasks</p>
-                                <hr className="my-4" />
-                                <Row>
-                                    <Button
-                                        color="secondary"
-                                        size="lg"
-                                        block
-                                        onClick={this.handleOnClick}
-                                    >
-                                        {'See the list of tasks.'}
-                                    </Button>
-                                </Row>
-                            </Container>
-                        </Jumbotron>
+                    <div className="home-container">
+                        <div className="background img1" style={{ backgroundImage: `url(${process.env.PUBLIC_URL}/images/to-do-image-1.jpg)` }}></div>
+                        <div className="background img2" style={{ backgroundImage: `url(${process.env.PUBLIC_URL}/images/to-do-image-2.jpg)` }}></div>
+                        <div className="background img3" style={{ backgroundImage: `url(${process.env.PUBLIC_URL}/images/to-do-image-3.jpg)` }}></div>
+                        <div className="welcome-action">
+                            <Row>
+                                <Card>
+                                    <CardHeader>
+                                        <span>Welcome to the To Do App!</span>
+                                    </CardHeader>
+                                    <CardBody>
+                                        <p className="lead">
+                                            {'Work and workflow visualization tool that enables you to manage work at personal or organizational level, limit work-in-progress, and maximize efficiency. '}
+                                        </p>
+                                    </CardBody>
+                                </Card>
+                            </Row>
+                            <Row className='button-container'>
+                                <Button
+                                    color=""
+                                    className="edit"
+                                    size="lg"
+                                    block
+                                    onClick={this.handleOnClick}
+                                >
+                                    <FaTasks style={{ marginRight: '15px' }} />
+                                    {'Go to the task list'}
+                                </Button>
+                            </Row>
+                        </div>
                     </div>
                 }
             />

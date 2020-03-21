@@ -26,15 +26,15 @@ const ToDoView = props => {
                 </CardBody>
                 <CardFooter>
                     <Button color="" className='edit' size="lg" block onClick={() => onEdit(id)}>
-                        <FaEdit style={{ marginRight: '10px' }} />
+                        <FaEdit style={{ marginRight: '15px' }} />
                         {'Edit'}
                     </Button>
                     <Button color="" className='delete' size="lg" block onClick={toggle}>
-                        <FaTrashAlt style={{ marginRight: '10px' }} />
+                        <FaTrashAlt style={{ marginRight: '15px' }} />
                         {'Delete'}
                     </Button>
                     <Button color="" className='back' size="lg" block onClick={onBack}>
-                        <FaUndo style={{ marginRight: '10px' }} />
+                        <FaUndo style={{ marginRight: '15px' }} />
                         {'Back'}
                     </Button>
                 </CardFooter>

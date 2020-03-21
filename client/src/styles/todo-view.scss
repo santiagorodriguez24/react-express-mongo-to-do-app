@@ -1,0 +1,11 @@
+.todo-view {
+  .card-header {
+    @extend .red-header;
+  }
+
+  .card-body {
+    color: #571b3c;
+    font-size: 1.25rem;
+    line-height: 1.5;
+  }
+}

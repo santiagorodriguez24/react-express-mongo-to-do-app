@@ -1,0 +1,37 @@
+.app-header {
+  margin: 0px;
+  width: 100%;
+  padding-bottom: 8px;
+  margin-bottom: 20px;
+  border: 0;
+  border-bottom: 1px;
+  border-style: solid;
+  border-color: white;
+  flex-wrap: wrap !important;
+
+  .col-header {
+    display: flex;
+    align-items: center;
+    padding-left: 0px;
+    padding-right: 25px;
+  }
+
+  h1 {
+    color: white;
+  }
+
+  @include xs {
+    background-size: 100%;
+
+    h1 {
+      font-size: 1.2rem;
+    }
+
+    .col-header {
+      display: flex;
+      align-items: center;
+      padding-left: 0px;
+      padding-right: 0.75rem;
+    }
+  }
+}

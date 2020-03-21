@@ -1,32 +1,49 @@
-.app-frame {
-  margin: 0;
-  padding: 20px;
-  box-sizing: border-box;
-  width: 100%;
-  height: 100%;
-  color: white;
+$view-port-height: 100vh;
+$view-port-width: 100vw;
+
+// smallest screen size (xs – extra small)
+$screen-xs-max: 576px;
+// Small tablets and large smartphones (landscape view)
+$screen-sm-max: 768px;
+// Small tablets (portrait view)
+$screen-md-max: 992px;
+// Tablets and small desktops
+$screen-lg-max: 1200px;
+// Large tablets and desktops
+$screen-xl-min: 1200px;
+
+// Xtra samll devices
+@mixin xs {
+  @media (max-width: #{$screen-xs-max}) {
+    @content;
+  }
 }
 
-.app-header {
-  margin: 0px;
-  width: 100%;
-  padding-bottom: 8px;
-  margin-bottom: 20px;
-  border: 0;
-  border-bottom: 1px;
-  border-style: solid;
-  border-color: white;
-  flex-wrap: wrap !important;
-
-  .col-header {
-    display: flex;
-    align-items: center;
-    padding-left: 0px;
-    padding-right: 25px;
+// Small devices
+@mixin sm {
+  @media (max-width: #{$screen-sm-max}) {
+    @content;
   }
+}
 
-  h1 {
-    color: white;
+// Medium devices
+@mixin md {
+  @media (max-width: #{$screen-md-max}) {
+    @content;
+  }
+}
+
+// Large devices
+@mixin lg {
+  @media (max-width: #{$screen-lg-max}) {
+    @content;
+  }
+}
+
+// Extra large devices
+@mixin xl {
+  @media (min-width: #{$screen-xl-min}) {
+    @content;
   }
 }
 
@@ -45,27 +62,9 @@
   color: white;
 }
 
-.todo-view {
-  .card-header {
-    @extend .red-header;
-  }
-
-  .card-body {
-    color: #571b3c;
-    font-size: 1.25rem;
-    line-height: 1.5;
-  }
-}
-
 .todo-logo {
   border-style: none;
   vertical-align: top;
   max-height: 80px;
   width: auto;
-}
-
-.not-found-row {
-  @extend .basic-row;
-  height: 40vh;
-  justify-content: center;
 }

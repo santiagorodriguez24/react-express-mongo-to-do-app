@@ -6,7 +6,7 @@ import { Prompt } from 'react-router-dom';
 import { Form, FormGroup, Label, Input, FormText, FormFeedback, Button, Row, Col, Card, CardHeader, CardBody, CardFooter } from 'reactstrap';
 import { stateOptions } from '../constants/options';
 import { renderOptions } from '../utils/utils';
-import { FaFileUpload, FaTimes } from 'react-icons/fa';
+import { FaFileUpload, FaRegTimesCircle, FaSave, FaUndo } from 'react-icons/fa';
 
 const validate = values => {
     const error = {};
@@ -126,7 +126,7 @@ export class ToDoForm extends Component {
                             </Col>
                             <Col xs='auto'>
                                 <Button color="" className='delete' onClick={() => this.handleFileLink()}>
-                                    <FaTimes style={{ marginRight: '10px' }} /> {'Cancel Change File'}
+                                    <FaRegTimesCircle style={{ marginRight: '10px' }} /> {'Cancel Change File'}
                                 </Button>
                             </Col>
                         </Row>
@@ -231,6 +231,7 @@ export class ToDoForm extends Component {
                                 type='submit'
                                 disabled={pristine || submitting}
                             >
+                                <FaSave style={{ marginRight: '10px' }} />
                                 {'Save'}
                             </Button>
                         </Col>
@@ -241,6 +242,7 @@ export class ToDoForm extends Component {
                                 onClick={onBack}
                                 disabled={submitting}
                             >
+                                <FaUndo style={{ marginRight: '10px' }} />
                                 {'Cancel'}
                             </Button>
                         </Col>

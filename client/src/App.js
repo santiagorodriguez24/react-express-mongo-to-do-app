@@ -5,22 +5,21 @@ import HomeContainer from './containers/HomeContainer';
 import TodosListContainer from './containers/TodosListContainer';
 import TodoContainer from './containers/TodoContainer';
 import NewTodoContainer from './containers/NewTodoContainer';
+import NotFoundPage from './components/NotFoundPage';
 
 class App extends Component {
 
-  renderHome = () => <HomeContainer/>;
+  renderHome = () => <HomeContainer />;
 
-  renderTodoContainer = () => <TodoContainer/>
+  renderTodoContainer = () => <TodoContainer />
 
-  renderTodoListContainer = () => <TodosListContainer/>;
+  renderTodoListContainer = () => <TodosListContainer />;
 
-  renderTodoNewContainer = () => <NewTodoContainer/>;
+  renderTodoNewContainer = () => <NewTodoContainer />;
 
   render() {
     return (
       <Router>
-        <Route exact path="/" component={this.renderHome}></Route>
-        <Route exact path="/todos" component={this.renderTodoListContainer}></Route>
         <Switch>
           {/* 
             Switch es necesario para que se muestre solo una de las rutas, ya que /new se interpreta como /:id sin Switch
@@ -28,10 +27,16 @@ class App extends Component {
             como regla siempre se debe poner la ruta mas especifica primero, la que tiene mas concatenaciones y menos wildcats
             por ejemplo /todos/new debe ir antes que /todos
             */}
+          <Route exact path="/" component={this.renderHome}></Route>
+          <Route exact path="/todos" component={this.renderTodoListContainer}></Route>
           <Route path="/todos/new" component={this.renderTodoNewContainer}></Route>
           <Route
             path="/todos/:id"
             render={props => <TodoContainer id={props.match.params.id} />} // en props tengo match, location y history
+          >
+          </Route>
+          <Route
+            render={props => <NotFoundPage {...props} />}
           >
           </Route>
         </Switch>

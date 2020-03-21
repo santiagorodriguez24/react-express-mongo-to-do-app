@@ -1,8 +1,142 @@
 .home-container {
   margin: 0px;
+  position: relative;
+  width: 100%;
+  height: calc(#{$view-port-height} - 25vh);
+  overflow: hidden;
 
-  .row {
-    @extend .basic-row;
-    justify-content: center;
+  .welcome-action {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    z-index: 999;
+
+    .row {
+      margin: 0px;
+      width: 100%;
+      height: 50%;
+      display: flex;
+    }
+
+    .button-container {
+      margin: 0 auto;
+      width: 95%;
+      align-items: flex-end;
+    }
+  }
+
+  .card {
+    color: #571b3c;
+    max-width: 60%;
+    background-color: rgba($color: #9a151a, $alpha: 0);
+    border: none;
+    height: fit-content;
+
+    .card-header {
+      padding: 0.5rem 1rem;
+      background-color: rgba($color: #9a151a, $alpha: 0.5);
+      border: none;
+
+      span {
+        font-size: 2.25rem;
+        line-height: 1.5;
+        color: white;
+        opacity: 1;
+
+        @include xs {
+          font-size: 1.5rem;
+        }
+      }
+    }
+
+    .card-body {
+      background-color: rgba($color: white, $alpha: 0.5);
+
+      p {
+        color: #571b3c;
+        font-weight: bold;
+        opacity: 1;
+
+        @include xs {
+          font-size: 1rem;
+        }
+      }
+    }
+
+    .card-footer {
+      padding: 0px;
+      padding-top: 0.75rem;
+    }
+
+    @include md {
+      max-width: 80%;
+    }
+
+    @include sm {
+      max-width: none;
+      width: 100%;
+    }
+  }
+
+  .background {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-position: center center;
+    background-size: contain;
+    background-repeat: no-repeat;
+
+    animation-duration: 15s;
+    animation-name: slider, displacement;
+    animation-iteration-count: infinite;
+    animation-direction: normal, alternate;
+    animation-timing-function: linear, ease-in-out;
+
+    &.img1 {
+      animation-delay: 5s, 0s;
+    }
+
+    &.img2 {
+      animation-delay: 10s, 0s;
+    }
+
+    &.img3 {
+      animation-delay: 15s, 0s;
+    }
+  }
+
+  @keyframes slider {
+    0% {
+      opacity: 0;
+      animation-timing-function: ease-in;
+    }
+    10% {
+      opacity: 1;
+      animation-timing-function: ease-out;
+    }
+    25% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0;
+      transform: scale(2);
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes displacement {
+    from {
+      background-position: top right;
+    }
+    to {
+      background-position: bottom left;
+      animation-timing-function: linear;
+    }
   }
 }

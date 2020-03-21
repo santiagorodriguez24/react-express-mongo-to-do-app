@@ -1,7 +1,15 @@
-.todos-card {
+.todos-list {
+  @include sm {
+    flex-basis: 100%;
+    margin-bottom: 1.5rem;
+  }
+
   .card-header {
     background-color: #9a151a;
     font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
 
   .row-list-container {

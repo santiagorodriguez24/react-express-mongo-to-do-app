@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import AppFrame from '../components/AppFrame';
 import ErrorPopUp from '../components/ErrorPopUp';
 import { getTodoById, getError } from '../store/selectors/ToDoSelectors';
-import { Route, withRouter } from 'react-router-dom';
+import { Route, withRouter, Redirect } from 'react-router-dom';
 import ToDoForm from '../components/ToDoForm';
 import ToDoView from '../components/ToDoView';
 import { fetchTodos, updateTodo, deleteTodo, changeTodoProps } from '../store/actions/ToDoActions';
@@ -59,44 +59,50 @@ class TodoContainer extends Component {
     }
 
     renderBody = () => {
-        return (
-            <Route
-                path="/todos/:id/edit"
-                children={props => {
-                    let { match: isEdit } = props;
-                    const TodoControl = isEdit ? ToDoForm : ToDoView;
+        if (this.props.todo) {
+            return (
+                <Route
+                    path="/todos/:id/edit"
+                    children={props => {
+                        let { match: isEdit } = props;
+                        const TodoControl = isEdit ? ToDoForm : ToDoView;
 
-                    return (
-                        <Fragment>
-                            <TodoControl
-                                {...this.props.todo}
-                                onSubmit={this.handleSubmit}
-                                onSubmitSuccess={this.handleOnSubmitSuccess}
-                                onBack={this.handleOnBack}
-                                onEdit={this.handleOnEdit}
-                                onDelete={this.handleOnDelete}
-                            />
-                            {
-                                // if some action get an error handle this
-                                this.props.error && this.props.error !== '' ?
-                                    <ErrorPopUp
-                                        message={this.props.error}
-                                        reloadPage={() => document.location.reload()}
-                                        removeErrorProp={this.props.changeTodoProps}
-                                    />
-                                    :
-                                    null
-                            }
-                        </Fragment>
-                    );
+                        return (
+                            <Fragment>
+                                <TodoControl
+                                    {...this.props.todo}
+                                    onSubmit={this.handleSubmit}
+                                    onSubmitSuccess={this.handleOnSubmitSuccess}
+                                    onBack={this.handleOnBack}
+                                    onEdit={this.handleOnEdit}
+                                    onDelete={this.handleOnDelete}
+                                />
+                                {
+                                    // if some action get an error handle this
+                                    this.props.error && this.props.error !== '' ?
+                                        <ErrorPopUp
+                                            message={this.props.error}
+                                            reloadPage={() => document.location.reload()}
+                                            removeErrorProp={this.props.changeTodoProps}
+                                        />
+                                        :
+                                        null
+                                }
+                            </Fragment>
+                        );
 
-                }
-                }
-            />
-        );
+                    }
+                    }
+                />
+            );
+        }
+        else {
+            return <Redirect to="/not-found" />
+        }
     }
 
     render() {
+        console.log('Todo container props: ', this.props);
         return (
             <AppFrame
                 header={`Task - ID: ${this.props.id}`}

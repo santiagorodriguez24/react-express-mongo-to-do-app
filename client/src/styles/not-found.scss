@@ -1,0 +1,54 @@
+.not-found-image {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  width: 100%;
+  height: 80vh;
+  background-repeat: no-repeat;
+  background-size: auto;
+  position: relative;
+  animation-duration: 10s, 3s;
+  animation-name: movement, roll;
+  animation-iteration-count: infinite, 1;
+  animation-direction: alternate;
+  animation-timing-function: ease, ease-in-out;
+
+  @include md {
+    background-size: 100%;
+  }
+}
+
+@keyframes movement {
+  from {
+    background-position: top left;
+  }
+  25% {
+    background-position: bottom left;
+  }
+  50% {
+    background-position: top right;
+  }
+  75% {
+    background-position: bottom right;
+  }
+  to {
+    background-position: top left;
+  }
+}
+
+@keyframes roll {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.not-found-row {
+  @extend .basic-row;
+  width: 90%;
+  justify-content: center;
+  position: absolute;
+  z-index: 999;
+}

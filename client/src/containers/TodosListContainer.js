@@ -10,6 +10,7 @@ import { fetchTodos, updateTodo, changeTodoProps } from '../store/actions/ToDoAc
 import { getTodos, getError, getTodosByState } from '../store/selectors/ToDoSelectors';
 import { stateOptions } from '../constants/options';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { FaRegListAlt, FaSpinner, FaCheck } from 'react-icons/fa';
 
 class TodoListContainer extends Component {
     constructor() {
@@ -122,6 +123,7 @@ class TodoListContainer extends Component {
         const { pendingToDos, InProgressToDos, DoneToDos } = this.props;
 
         const TaskListArray = [pendingToDos, InProgressToDos, DoneToDos];
+        const IconsArray = [FaRegListAlt, FaSpinner, FaCheck];
 
         return (
             <AppFrame
@@ -141,11 +143,13 @@ class TodoListContainer extends Component {
                             <Row className='row-list-container'>
                                 {
                                     TaskListArray.map((taskList, index) => {
+                                        let Icon = IconsArray[index];
                                         return (
-                                            <Col key={`taskList-key-${index}`}>
-                                                <Card className='todos-card'>
+                                            <Col key={`taskList-key-${index}`} className='todos-list'>
+                                                <Card>
                                                     <CardHeader>
                                                         {stateOptions[index]}
+                                                        <Icon size={25} />
                                                     </CardHeader>
                                                     <CardBody>
                                                         <Droppable droppableId={stateOptions[index]}>
