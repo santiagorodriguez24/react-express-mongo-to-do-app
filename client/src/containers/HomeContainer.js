@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import AppFrame from '../components/AppFrame';
-import { Card, CardHeader, CardBody, CardFooter, Button, Row } from 'reactstrap';
+import { Card, CardHeader, CardBody, Button, Row } from 'reactstrap';
 import { FaTasks } from 'react-icons/fa';
+import { ROUTE_TODOS } from '../constants/routes';
 
 class HomeContainer extends Component {
 
     handleOnClick = () => {
-        this.props.history.push('/todos');
+        this.props.history.push(ROUTE_TODOS);
     }
 
     render() {

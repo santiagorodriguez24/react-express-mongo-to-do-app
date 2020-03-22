@@ -5,6 +5,7 @@ import AppFrame from '../components/AppFrame';
 import ErrorPopUp from '../components/ErrorPopUp';
 import { getTodoById, getError } from '../store/selectors/ToDoSelectors';
 import { Route, withRouter, Redirect } from 'react-router-dom';
+import { ROUTE_TODO_EDIT } from '../constants/routes';
 import ToDoForm from '../components/ToDoForm';
 import ToDoView from '../components/ToDoView';
 import { fetchTodos, updateTodo, deleteTodo, changeTodoProps } from '../store/actions/ToDoActions';
@@ -45,7 +46,7 @@ class TodoContainer extends Component {
     }
 
     handleOnEdit = (id) => {
-        this.props.history.push(`/todos/${id}/edit`);
+        this.props.history.push(ROUTE_TODO_EDIT.replace(":id", id));
     }
 
     handleOnSubmitSuccess = () => {
@@ -62,7 +63,7 @@ class TodoContainer extends Component {
         if (this.props.todo) {
             return (
                 <Route
-                    path="/todos/:id/edit"
+                    path={ROUTE_TODO_EDIT}
                     children={props => {
                         let { match: isEdit } = props;
                         const TodoControl = isEdit ? ToDoForm : ToDoView;
@@ -102,7 +103,7 @@ class TodoContainer extends Component {
     }
 
     render() {
-        console.log('Todo container props: ', this.props);
+
         return (
             <AppFrame
                 header={`Task - ID: ${this.props.id}`}

@@ -10,12 +10,12 @@ const ActionsBar = props => {
     return (
         <Row className='actions-bar'>
             <Col xs="12" sm='12' md="auto" className='col-actions-bar'>
-                <Button className='btn-round' id='add-button' onClick={() => onAdd()}>
+                <Button className='btn-round' id='add-button' name='add-button' onClick={() => onAdd()}>
                     <FaPlus />
                 </Button>
-                <UncontrolledTooltip placement="right" target="add-button">
+                {/* <UncontrolledTooltip placement="right" target="add-button">
                     {'Add Task'}
-                </UncontrolledTooltip>
+                </UncontrolledTooltip> */}
             </Col>
             <Col className='col-actions-bar'>
                 <Row className='basic-row'>

@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { withRouter } from 'react-router-dom';
+import { ROUTE_TODO } from '../constants/routes';
 import AppFrame from '../components/AppFrame';
 import ActionsBar from '../components/ActionsBar';
 import ErrorPopUp from '../components/ErrorPopUp';
@@ -31,8 +32,12 @@ class TodoListContainer extends Component {
         }
     }
 
+    toTaskView = (id) => {
+        this.props.history.push(ROUTE_TODO.replace(":id", id));
+    }
+
     handleAddNew = () => {
-        this.props.history.push('/todos/new')
+        this.props.history.push(ROUTE_TODO_ADD);
     }
 
     onChangeFilter = (e, index) => {
@@ -56,10 +61,6 @@ class TodoListContainer extends Component {
             () => this.props.fetchTodos(formattedQuery)
         )
 
-    }
-
-    toTaskView = (id) => {
-        this.props.history.push(`/todos/${id}`);
     }
 
     onDragEnd = (result) => {

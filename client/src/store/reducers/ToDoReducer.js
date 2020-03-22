@@ -8,6 +8,7 @@ export const todos = handleActions(
         },
 
         [FETCH_TODOS]: (state, action) => {
+
             if (action.error) {
                 return ({
                     todos: [...state.todos],
@@ -22,6 +23,7 @@ export const todos = handleActions(
         },
 
         [INSERT_TODO]: (state, action) => {
+
             if (action.error) {
                 return ({
                     todos: [...state.todos],
@@ -36,7 +38,6 @@ export const todos = handleActions(
         },
 
         [UPDATE_TODO]: (state, action) => {
-            console.log('reducer update action: ', action);
 
             if (action.error) {
                 return ({
@@ -67,6 +68,7 @@ export const todos = handleActions(
         },
 
         [DELETE_TODO]: (state, action) => {
+            
             if (action.error) {
                 return ({
                     todos: [...state.todos],

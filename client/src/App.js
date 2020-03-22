@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './styles/app.scss';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { ROUTE_HOME, ROUTE_TODOS, ROUTE_TODO_ADD, ROUTE_TODO } from './constants/routes';
 import HomeContainer from './containers/HomeContainer';
 import TodosListContainer from './containers/TodosListContainer';
 import TodoContainer from './containers/TodoContainer';
@@ -21,18 +22,12 @@ class App extends Component {
     return (
       <Router>
         <Switch>
-          {/* 
-            Switch es necesario para que se muestre solo una de las rutas, ya que /new se interpreta como /:id sin Switch
-            se muestran ambas rutas. Toma siempre la primera coincidencia por eso se debe poner la ruta /new antes que /:id
-            como regla siempre se debe poner la ruta mas especifica primero, la que tiene mas concatenaciones y menos wildcats
-            por ejemplo /todos/new debe ir antes que /todos
-            */}
-          <Route exact path="/" component={this.renderHome}></Route>
-          <Route exact path="/todos" component={this.renderTodoListContainer}></Route>
-          <Route path="/todos/new" component={this.renderTodoNewContainer}></Route>
+          <Route exact path={ROUTE_HOME} component={this.renderHome}></Route>
+          <Route exact path={ROUTE_TODOS} component={this.renderTodoListContainer}></Route>
+          <Route path={ROUTE_TODO_ADD} component={this.renderTodoNewContainer}></Route>
           <Route
-            path="/todos/:id"
-            render={props => <TodoContainer id={props.match.params.id} />} // en props tengo match, location y history
+            path={ROUTE_TODO}
+            render={props => <TodoContainer id={props.match.params.id} />}
           >
           </Route>
           <Route

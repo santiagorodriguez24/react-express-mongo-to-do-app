@@ -1,40 +1,51 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { shallow, render } from 'enzyme';
 import AppHeader from './AppHeader';
 
-// props se testing
 const props = {
-    title: 'title test',
+    title: 'Test Title',
 };
 
 const newProps = {
-    title: 'new title test',
+    title: 'New Test Title',
 };
 
-describe('<AppHeader/>', () => {
-    test('render', () => {
-        const wrapper = shallow(<AppHeader {...props}/>);
+describe('<AppHeader/> component: ', () => {
+
+    test('Render without crashing.', () => {
+        const wrapper = shallow(<AppHeader {...props} />);
+
         expect(wrapper.find(AppHeader)).toBeDefined();
     });
 
-    it('should have an image', () => {
-        // creamos un wrapper que tenga nuestro componente
-        const wrapper = shallow(<AppHeader {...props} />);
-        // esperamos que ese wrapper que es nuestro componente tenga una imagen
-        expect(wrapper.find('img')).toHaveLength(1);
+    it('Should have 1 reactstrap Row with 2 Columns inside.', () => {
+        const wrapper = render(<AppHeader {...props} />);
+
+        const row = wrapper.find('.row');
+
+        expect(row.length).toBe(1);
+        expect(row.children().length).toBe(wrapper.find('.col-auto').length);
     });
 
-    it('should have title with value `title test`', () => {
+    it('Should have a ToDo Logo.', () => {
+
         const wrapper = shallow(<AppHeader {...props} />);
-        // esperamos que ese wrapper que es nuestro componente tenga un h3 con el titulo
+
+        expect(wrapper.find('.todo-logo')).toHaveLength(1);
+    });
+
+    it('Should have a title prop with value "Test Title".', () => {
+        const wrapper = shallow(<AppHeader {...props} />);
+
         expect(wrapper.find('h1').text()).toEqual(props.title);
     });
 
-    it('should have title with new value `title test`', () => {
+    it('Should have a title prop with new value.', () => {
         const wrapper = shallow(<AppHeader {...props} />);
-        // modificamos las props con las nuevas
+
         wrapper.setProps(newProps);
-        // esperamos que ese wrapper que es nuestro componente tenga un h3 con el titulo nuevo
+
         expect(wrapper.find('h1').text()).toEqual(newProps.title);
     });
+
 });

@@ -78,7 +78,6 @@ ToDoView.propTypes = {
     state: PropTypes.string.isRequired,
     file: PropTypes.string,
     onBack: PropTypes.func.isRequired,
-    isDeleteAllow: PropTypes.bool,
     onDelete: PropTypes.func
 };
 
