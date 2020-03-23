@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { withRouter } from 'react-router-dom';
-import { ROUTE_TODO } from '../constants/routes';
+import { ROUTE_TODO, ROUTE_TODO_ADD } from '../constants/routes';
 import AppFrame from '../components/AppFrame';
 import ActionsBar from '../components/ActionsBar';
 import ErrorPopUp from '../components/ErrorPopUp';
@@ -24,6 +23,13 @@ class TodoListContainer extends Component {
                 { key: 'state', value: '' }
             ]
         }
+
+        this.filters = [
+            { name: 'id', label: 'ID: ', placeholder: 'Filter by ID', onChange: this.onChangeFilter },
+            { name: 'title', label: 'Title: ', placeholder: 'Filter by Title', onChange: this.onChangeFilter },
+            { name: 'description', label: 'Description: ', placeholder: 'Filter by Description', onChange: this.onChangeFilter },
+            { name: 'state', label: 'State: ', type: 'select', options: stateOptions, placeholder: 'Filter by state', onChange: this.onChangeFilter }
+        ];
     }
 
     componentDidMount() {
@@ -82,7 +88,6 @@ class TodoListContainer extends Component {
             });
     }
 
-
     renderList = (items) => {
         let itemClass = 'list-group-item toast fade show';
 
@@ -117,13 +122,12 @@ class TodoListContainer extends Component {
         });
 
         return (result);
-
     }
 
     render() {
-        const { pendingToDos, InProgressToDos, DoneToDos } = this.props;
+        const { PendingToDos, InProgressToDos, DoneToDos } = this.props;
 
-        const TaskListArray = [pendingToDos, InProgressToDos, DoneToDos];
+        const TaskListArray = [PendingToDos, InProgressToDos, DoneToDos];
         const IconsArray = [FaRegListAlt, FaSpinner, FaCheck];
 
         return (
@@ -133,12 +137,7 @@ class TodoListContainer extends Component {
                     <Fragment>
                         <ActionsBar
                             onAdd={this.handleAddNew}
-                            filters={[
-                                { name: 'id', label: 'ID: ', placeholder: 'Filter by ID', onChange: this.onChangeFilter },
-                                { name: 'title', label: 'Title: ', placeholder: 'Filter by Title', onChange: this.onChangeFilter },
-                                { name: 'description', label: 'Description: ', placeholder: 'Filter by Description', onChange: this.onChangeFilter },
-                                { name: 'state', label: 'State: ', type: 'select', options: stateOptions, placeholder: 'Filter by state', onChange: this.onChangeFilter }
-                            ]}
+                            filters={this.filters}
                         />
                         <DragDropContext onDragEnd={this.onDragEnd}>
                             <Row className='row-list-container'>
@@ -196,7 +195,7 @@ TodoListContainer.propTypes = {
     updateTodo: PropTypes.func.isRequired,
     changeTodoProps: PropTypes.func.isRequired,
     todos: PropTypes.array.isRequired,
-    pendingToDos: PropTypes.array.isRequired,
+    PendingToDos: PropTypes.array.isRequired,
     InProgressToDos: PropTypes.array.isRequired,
     DoneToDos: PropTypes.array.isRequired,
     error: PropTypes.string.isRequired
@@ -204,14 +203,14 @@ TodoListContainer.propTypes = {
 
 TodoListContainer.defaultProps = {
     todos: [],
-    pendingToDos: [],
+    PendingToDos: [],
     InProgressToDos: [],
     DoneToDos: []
 };
 
 const mapStateToProps = state => ({
     todos: getTodos(state),
-    pendingToDos: getTodosByState(state, stateOptions[0]),
+    PendingToDos: getTodosByState(state, stateOptions[0]),
     InProgressToDos: getTodosByState(state, stateOptions[1]),
     DoneToDos: getTodosByState(state, stateOptions[2]),
     error: getError(state)
@@ -223,4 +222,4 @@ const mapDispatchToProps = {
     changeTodoProps
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(TodoListContainer));
+export default connect(mapStateToProps, mapDispatchToProps)(TodoListContainer);

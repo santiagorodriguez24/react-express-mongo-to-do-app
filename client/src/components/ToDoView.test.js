@@ -1,28 +1,24 @@
 import React from 'react';
-import { mount, shallow } from 'enzyme';
-import AppFrame from './AppFrame';
+import { mount } from 'enzyme';
 import ToDoView from './ToDoView';
 import { toDoList } from '../constants/testValues';
 
-const onBackResult = 'onBack function called.';
-
 describe('<ToDoView/>', () => {
 
-    test('Render without crashing.', () => {
+    let wrapper;
+    const onBack = jest.fn();
 
-        const wrapper = shallow(
-            <ToDoView {...toDoList[0]} onBack={() => onBackResult} />
+    beforeAll(() => {
+        wrapper = mount(
+            <ToDoView {...toDoList[0]} onBack={onBack} />
         );
+    });
 
-        expect(wrapper.find(AppFrame)).toBeDefined();
-
+    test('Renders without crashing.', () => {
+        expect(wrapper.find('.todo-view').hostNodes()).toHaveLength(1);
     });
 
     it('Props are properly defined and initialized.', () => {
-
-        const wrapper = mount(
-            <ToDoView {...toDoList[0]} onBack={() => onBackResult} />
-        );
 
         Object.entries(wrapper.props()).forEach(([key, value]) => {
             if (typeof value !== 'function') {
@@ -30,45 +26,42 @@ describe('<ToDoView/>', () => {
             }
         });
 
+        expect(wrapper.find('.card-header').text()).toEqual(toDoList[0].title);
+        expect(wrapper.find('i').at(0).text()).toEqual(toDoList[0].description);
+
         wrapper.setProps(toDoList[1]);
 
         Object.entries(wrapper.props()).forEach(([key, value]) => {
-            if (key !== 'onBack') {
+            if (typeof value !== 'function') {
                 expect(wrapper.prop(key)).toEqual(toDoList[1][key]);
             }
         });
-
-        wrapper.unmount();
 
     });
 
     it('Back Button Works.', () => {
 
-        const wrapper = shallow(
-            <ToDoView {...toDoList[0]} onBack={() => onBackResult} />
-        );
-
-        expect(wrapper.find('.back')).toHaveLength(2);
-        expect(wrapper.find('.back').first().props().onClick()).toEqual(onBackResult);
+        wrapper.find('.back').first().props().onClick();
+        expect(onBack).toHaveBeenCalledTimes(1);
 
     });
 
     it('Clicking the delete button opens the confirmation modal.', () => {
 
-        const wrapper = mount(
-            <ToDoView {...toDoList[0]} onBack={() => onBackResult} />
-        );
-
         const deleteButton = wrapper.find('.delete').first();
+        let deleteModal = wrapper.find('.message-modal').at(0);
+
+        expect(deleteModal.prop('isOpen')).toBeFalsy();
 
         deleteButton.simulate('click');
 
-        const deleteModal = wrapper.find('.message-modal').at(0);
+        let deleteModalAfter = wrapper.find('.message-modal').at(0);
+        expect(deleteModalAfter.prop('isOpen')).toBeTruthy();
 
-        expect(deleteModal.prop('isOpen')).toBeTruthy();
+    });
 
+    afterAll(() => {
         wrapper.unmount();
-
     });
 
 });

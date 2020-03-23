@@ -1,10 +1,19 @@
 import React, { useState } from 'react';
 import { Row, Col, Modal, ModalBody, ModalHeader, ModalFooter, Button } from 'reactstrap';
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
-const ErrorPopUp = props => {
+function ErrorPopUp(props) {
+    let history = useHistory();
+
+    function handleClick() {
+        history.push("/");
+
+        if (props.removeErrorProp) {
+            props.removeErrorProp({ error: '' });
+        }
+    }
+
     const [modalOpen, setModalOpen] = useState(true);
-
     const toggle = () => setModalOpen(!modalOpen);
 
     return (
@@ -47,14 +56,7 @@ const ErrorPopUp = props => {
                     <Col xs='6'>
                         <Button
                             color="" block className='back'
-                            to={'/'}
-                            tag={Link}
-                            onClick={() => {
-                                if (props.removeErrorProp) {
-                                    props.removeErrorProp({ error: '' });
-                                }
-                            }
-                            }
+                            onClick={handleClick}
                         >
                             {'Back to Home'}
                         </Button>

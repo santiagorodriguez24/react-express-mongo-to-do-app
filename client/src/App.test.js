@@ -8,10 +8,15 @@ import { toDoList, storeState } from './constants/testValues';
 import { ROUTE_TODOS, ROUTE_TODO_ADD, ROUTE_TODO } from './constants/routes';
 import TodoListContainer from './containers/TodosListContainer';
 import ToDoView from './components/ToDoView';
+import ToDoForm from './components/ToDoForm';
 
 const mockStore = configureStore();
 
-describe('<App />', () => {
+describe('<App/>', () => {
+
+  const root = document.createElement('div');
+  document.body.appendChild(root);
+  const store = mockStore(storeState);
 
   beforeAll(() => {
     window['__react-beautiful-dnd-disable-dev-warnings'] = true;
@@ -27,34 +32,32 @@ describe('<App />', () => {
     expect(wrapper.find('.home-container')).toHaveLength(1);
   });
 
-  test('Render ToDoListContainer Component when location path is ROUTE_TODOS.', () => {
-    const store = mockStore(storeState);
+  test('Render ToDoListContainer when location path is ROUTE_TODOS and ToDoForm on clicking add button', () => {
 
     const wrapper = mount(
       <Provider store={store}>
         <MemoryRouter initialEntries={[ROUTE_TODOS]}>
           <App />
         </MemoryRouter>
-      </Provider>
+      </Provider>,
+      { attachTo: root }
     );
 
+    expect(wrapper.containsMatchingElement(<TodoListContainer />)).toBeTruthy();
+    expect(wrapper.containsMatchingElement(<ToDoForm />)).toBeFalsy();
 
-    expect(wrapper.find(TodoListContainer)).toHaveLength(1);
+    const addButton = wrapper.find('#add-button').hostNodes();
+    addButton.simulate('click');
 
-    // wrapper.find('.todos-list').length = 6
-    //  STRUCTURE OF MOUNTED COMPONENT:
-    //   <Col className="todos-list" tag="div" widths={{...}}>
-    //     <div className="todos-list col">
-
-    expect(wrapper.find('.todos-list').hostNodes()).toHaveLength(3);
-    expect(wrapper.find('div.todos-list')).toHaveLength(3);
+    expect(wrapper.containsMatchingElement(<TodoListContainer />)).toBeFalsy();
+    expect(wrapper.containsMatchingElement(<ToDoForm />)).toBeTruthy();
 
     wrapper.unmount();
 
+    expect(wrapper.exists()).toBe(false);
   });
 
   test('Render ToDoForm Component when path is ROUTE_TODO_ADD.', () => {
-    const store = mockStore(storeState);
 
     const wrapper = render(
       <Provider store={store}>
@@ -69,7 +72,6 @@ describe('<App />', () => {
   });
 
   test('Render ToDoView Component when location path is ROUTE_TODO.', () => {
-    const store = mockStore(storeState);
 
     const wrapper = mount(
       <Provider store={store}>
@@ -101,4 +103,5 @@ describe('<App />', () => {
     expect(wrapper.find('.not-found-image')).toHaveLength(1);
 
   });
+
 });

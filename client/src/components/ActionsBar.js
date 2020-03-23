@@ -1,21 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Row, Col, Button, Input, UncontrolledTooltip } from 'reactstrap';
+import { Row, Col, Button, Input, Tooltip } from 'reactstrap';
 import { FaPlus } from 'react-icons/fa';
 import { renderOptions } from '../utils/utils';
 
 const ActionsBar = props => {
     const { onAdd, filters } = props;
 
+    const [tooltipOpen, setTooltipOpen] = useState(false);
+
+    const toggle = () => setTooltipOpen(!tooltipOpen);
+
     return (
         <Row className='actions-bar'>
             <Col xs="12" sm='12' md="auto" className='col-actions-bar'>
-                <Button className='btn-round' id='add-button' name='add-button' onClick={() => onAdd()}>
+                <Button className='btn-round' id="add-button" onClick={() => onAdd()}>
                     <FaPlus />
                 </Button>
-                {/* <UncontrolledTooltip placement="right" target="add-button">
+                <Tooltip isOpen={tooltipOpen} toggle={toggle} placement="right" target="add-button">
                     {'Add Task'}
-                </UncontrolledTooltip> */}
+                </Tooltip>
             </Col>
             <Col className='col-actions-bar'>
                 <Row className='basic-row'>

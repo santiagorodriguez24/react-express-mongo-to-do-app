@@ -26,9 +26,9 @@ export const toDoList = [
     {
         state: 'DONE',
         _id: '5e72994392daab47c0aad968',
-        title: 'Dance',
-        description: 'To move the body and feet to music.',
-        file: 'uploads/playlist.txt',
+        title: 'Learn',
+        description: 'to get knowledge or skill in a new subject or activity.',
+        file: 'uploads/react-tutorial.pdf',
         id: 4
     }
 ];

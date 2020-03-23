@@ -10,13 +10,7 @@ const newProps = {
     title: 'New Test Title',
 };
 
-describe('<AppHeader/> component: ', () => {
-
-    test('Render without crashing.', () => {
-        const wrapper = shallow(<AppHeader {...props} />);
-
-        expect(wrapper.find(AppHeader)).toBeDefined();
-    });
+describe('<AppHeader/>', () => {
 
     it('Should have 1 reactstrap Row with 2 Columns inside.', () => {
         const wrapper = render(<AppHeader {...props} />);

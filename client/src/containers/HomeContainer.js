@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
 import AppFrame from '../components/AppFrame';
 import { Card, CardHeader, CardBody, Button, Row } from 'reactstrap';
 import { FaTasks } from 'react-icons/fa';
@@ -53,4 +52,4 @@ class HomeContainer extends Component {
     }
 }
 
-export default withRouter(HomeContainer);
+export default HomeContainer;

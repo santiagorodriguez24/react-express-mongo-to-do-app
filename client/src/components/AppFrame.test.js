@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, shallow } from 'enzyme';
+import { shallow } from 'enzyme';
 import AppFrame from './AppFrame';
 import ToDoView from './ToDoView';
 import { toDoList } from '../constants/testValues';
@@ -8,42 +8,28 @@ import AppHeader from './AppHeader';
 const body = <ToDoView {...toDoList[0]} onBack={() => 'onBack'} />;
 
 describe('<AppFrame/>', () => {
-    test('Render without crashing.', () => {
-        const wrapper = shallow(
+
+    let wrapper;
+
+    beforeAll(() => {
+        wrapper = shallow(
             <AppFrame
                 header='Test Header'
-                body={<div>Body</div>}
+                body={body}
             />
         );
-        expect(wrapper.find(AppFrame)).toBeDefined();
+    });
+
+    test('Has app-frame class.', () => {
+        expect(wrapper.find('.app-frame')).toHaveLength(1);
     });
 
     it('Render App Header Component.', () => {
-        const wrapper = shallow(
-            <AppFrame
-                header={'Test Header'}
-                body={body}
-            />
-        );
-
-        expect(
-            wrapper.containsMatchingElement(
-                <AppHeader title={'Test Header'} />
-            )
-        ).toBeTruthy();
-
+        expect(wrapper.containsMatchingElement(<AppHeader title={'Test Header'} />)).toBeTruthy();
     });
 
-    it('Render ToDoView Component.', () => {
-        const wrapper = render(
-            <AppFrame
-                header={'Test Header'}
-                body={body}
-            />
-        );
-
-        expect(wrapper.find('.card-header').text()).toEqual(toDoList[0].title);
-        expect(wrapper.find('i')[0].children[0].data).toEqual(toDoList[0].description);
+    it('Render ToDoView Component defined as body prop.', () => {
+        expect(wrapper.containsMatchingElement(body)).toBeTruthy();
     });
 
 });

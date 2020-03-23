@@ -5,7 +5,6 @@ import AppFrame from '../components/AppFrame';
 import ToDoForm from '../components/ToDoForm';
 import ErrorPopUp from '../components/ErrorPopUp';
 import { getError } from '../store/selectors/ToDoSelectors';
-import { withRouter } from 'react-router-dom';
 import { fetchTodos, insertTodo, changeTodoProps } from '../store/actions/ToDoActions';
 import { SubmissionError } from 'redux-form';
 
@@ -83,4 +82,4 @@ const mapDispatchToProps = {
     changeTodoProps
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(NewTodoContainer));
+export default connect(mapStateToProps, mapDispatchToProps)(NewTodoContainer);

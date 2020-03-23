@@ -10,21 +10,27 @@ import NotFoundPage from './components/NotFoundPage';
 
 class App extends Component {
 
-  renderHome = () => <HomeContainer />;
-
-  renderTodoContainer = () => <TodoContainer />
-
-  renderTodoListContainer = () => <TodosListContainer />;
-
-  renderTodoNewContainer = () => <NewTodoContainer />;
-
   render() {
     return (
       <Router>
         <Switch>
-          <Route exact path={ROUTE_HOME} component={this.renderHome}></Route>
-          <Route exact path={ROUTE_TODOS} component={this.renderTodoListContainer}></Route>
-          <Route path={ROUTE_TODO_ADD} component={this.renderTodoNewContainer}></Route>
+          <Route
+            exact
+            path={ROUTE_HOME}
+            render={props => <HomeContainer {...props} />}
+          >
+          </Route>
+          <Route
+            exact
+            path={ROUTE_TODOS}
+            render={props => <TodosListContainer {...props} />}
+          >
+          </Route>
+          <Route
+            path={ROUTE_TODO_ADD}
+            render={props => <NewTodoContainer {...props} />}
+          >
+          </Route>
           <Route
             path={ROUTE_TODO}
             render={props => <TodoContainer id={props.match.params.id} />}
