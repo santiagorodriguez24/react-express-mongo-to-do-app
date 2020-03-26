@@ -2,6 +2,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload')
+const path = require('path');
 const { notFoundHandler, errorHandler } = require('./middlewares/errorHandler');
 
 const app = express();
@@ -11,7 +12,7 @@ app.use(bodyParser.json());
 
 app.use(fileUpload({ useTempFiles: true }));
 
-app.use(express.static(__dirname + '../client/build/'));
+app.use(express.static(path.join(__dirname, '../client/build/')));
 
 app.disable("x-powered-by");
 
