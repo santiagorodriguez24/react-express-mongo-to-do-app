@@ -36,4 +36,11 @@ let todoSchema = new Schema(
 
 todoSchema.plugin(AutoIncrement, { id: 'todo_seq', inc_field: 'id' });
 
+todoSchema.post('findOne', function (result, next) {
+    if (result == null) {
+        return next(new Error('Can\'t find object'));
+    }
+    next();
+});
+
 module.exports = mongoose.model('todo', todoSchema);

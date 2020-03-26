@@ -2,6 +2,7 @@
 const Todo = require('../models/todoModel');
 const fs = require('fs');
 const path = require('path');
+const uploadsFolderPath = process.env.URLFILES;
 
 exports.getTodos = function (req, res) {
 
@@ -26,6 +27,7 @@ exports.getTodos = function (req, res) {
     }
 
     Todo.find(query)
+        .sort('id')
         .exec((error, todos) => {
 
             if (error) {
@@ -37,13 +39,37 @@ exports.getTodos = function (req, res) {
                 });
             }
 
-            res.json({
+            return res.json({
                 ok: true,
                 todos: todos
             });
 
         }
         );
+}
+
+exports.getTodoById = function (req, res) {
+
+    let { id } = req.params;
+
+    Todo.findOne({ id: id }, (error, todoDB) => {
+
+        if (error) {
+            console.log(`The task wasn't found. ${error}`);
+
+            return res.status(400).json({
+                ok: false,
+                error: 'The task that id wasn\'t found.'
+            });
+        }
+
+        return res.json({
+            ok: true,
+            todo: todoDB
+        });
+    }
+    )
+
 }
 
 exports.createTodo = function (req, res) {
@@ -64,7 +90,8 @@ exports.createTodo = function (req, res) {
                 });
             }
 
-            res.json({
+            res.location('/todos/' + TodoDB.id);
+            return res.status(201).json({
                 ok: true,
                 todo: TodoDB
             });
@@ -94,7 +121,7 @@ exports.createTodo = function (req, res) {
         // prevents a file from being overwritten if it has the same name as the received file.
         let fileName = `${formattedName}-${new Date().getMilliseconds()}.${fileExtension}`;
 
-        file.mv(`uploads/${fileName}`, function (error) {
+        file.mv(`${uploadsFolderPath}/${fileName}`, function (error) {
             if (error) {
                 console.log(`Failed to save the attached file. Error: ${error}`);
 
@@ -104,7 +131,7 @@ exports.createTodo = function (req, res) {
                 });
             }
 
-            body.file = `uploads/${fileName}`;
+            body.file = `${uploadsFolderPath}/${fileName}`;
 
             let todo = new Todo(body);
 
@@ -113,7 +140,7 @@ exports.createTodo = function (req, res) {
                 if (error) {
                     console.log(`Failed to save to-do. Error: ${error}`);
 
-                    deleteFile(`uploads/${fileName}`);
+                    deleteFile(`${uploadsFolderPath}/${fileName}`);
 
                     return res.status(500).json({
                         ok: false,
@@ -121,7 +148,8 @@ exports.createTodo = function (req, res) {
                     });
                 }
 
-                res.json({
+                res.location('/todos/' + TodoDB.id);
+                return res.status(201).json({
                     ok: true,
                     todo: TodoDB
                 });
@@ -141,7 +169,7 @@ exports.updateTodo = function (req, res) {
     Todo.findOne({ id: id }, (error, todoDB) => {
 
         if (error) {
-            console.log(`The task to update wasn't found. Error: ${error}`);
+            console.log(`The task to update wasn't found. ${error}`);
 
             return res.status(400).json({
                 ok: false,
@@ -164,7 +192,7 @@ exports.updateTodo = function (req, res) {
                     });
                 }
 
-                res.json({
+                return res.json({
                     ok: true,
                     todo: SavedTodo
                 });
@@ -192,7 +220,7 @@ exports.updateTodo = function (req, res) {
             let formattedName = dividedName[0].replace(/ /g, "");
             let fileName = `${formattedName}-${new Date().getMilliseconds()}.${fileExtension}`;
 
-            file.mv(`uploads/${fileName}`, function (error) {
+            file.mv(`${uploadsFolderPath}/${fileName}`, function (error) {
                 if (error) {
                     console.log(`Failed to save the attached file. Error: ${error}`);
 
@@ -205,14 +233,14 @@ exports.updateTodo = function (req, res) {
                 // The old file is deleted before saving the new one.
                 deleteFile(todoDB.file);
 
-                todoDB.file = `uploads/${fileName}`;
+                todoDB.file = `${uploadsFolderPath}/${fileName}`;
 
                 todoDB.save((error, SavedTodo) => {
 
                     if (error) {
                         console.log(`Failed to update task. Error: ${error}`);
 
-                        deleteFile(`uploads/${fileName}`);
+                        deleteFile(`${uploadsFolderPath}/${fileName}`);
 
                         return res.status(500).json({
                             ok: false,
@@ -220,7 +248,7 @@ exports.updateTodo = function (req, res) {
                         });
                     }
 
-                    res.json({
+                    return res.json({
                         ok: true,
                         todo: SavedTodo
                     });
@@ -256,7 +284,7 @@ exports.deleteTodo = function (req, res) {
                 deleteFile(deletedTodo.file);
             }
 
-            res.json({
+            return res.json({
                 ok: true,
                 todo: deletedTodo
             });
@@ -275,14 +303,14 @@ exports.deleteTodo = function (req, res) {
 exports.getFile = (req, res) => {
     let { fileName } = req.params;
 
-    let pathFile = path.resolve(__dirname, `../uploads/${fileName}`);
+    let pathFile = path.resolve(__dirname, `../${uploadsFolderPath}/${fileName}`);
 
     if (fs.existsSync(pathFile)) {
-        res.sendFile(pathFile);
+        return res.sendFile(pathFile);
     }
     else {
         let noFilePath = path.resolve(__dirname, '../assets/no-file.jpg');
-        res.sendFile(noFilePath);
+        return res.sendFile(noFilePath);
     }
 
 }

@@ -21,7 +21,7 @@ const ToDoView = props => {
                     <div><strong>State: </strong><i>{state}</i></div>
                     <div>
                         <strong>File: </strong>
-                        <a href={`/${file}`} target="_blank" rel="noopener noreferrer">{file ? file.replace("uploads/", "") : ""}</a>
+                        <a href={`/${file}`}  rel="noopener noreferrer">{file ? file.replace("uploads/", "") : ""}</a>
                     </div>
                 </CardBody>
                 <CardFooter>

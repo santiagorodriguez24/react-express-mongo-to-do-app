@@ -4,7 +4,7 @@
   "description": "node server",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "author": "",
   "license": "ISC",
@@ -14,5 +14,10 @@
     "express-fileupload": "^1.1.6",
     "mongoose": "^5.9.4",
     "mongoose-sequence": "^5.2.2"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^7.1.1",
+    "supertest": "^4.0.2"
   }
 }

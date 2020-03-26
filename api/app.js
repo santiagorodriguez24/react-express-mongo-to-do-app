@@ -2,6 +2,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload')
+const { notFoundHandler, errorHandler } = require('./middlewares/errorHandler');
 
 const app = express();
 
@@ -13,5 +14,9 @@ app.use(fileUpload({ useTempFiles: true }));
 app.use(express.static(__dirname + '../client/build/'));
 
 app.use(require('./routes/todoRoutes'));
+
+app.use(notFoundHandler);
+
+app.use(errorHandler);
 
 module.exports = app;
