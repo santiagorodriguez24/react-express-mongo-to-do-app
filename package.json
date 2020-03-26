@@ -4,9 +4,10 @@
   "description": "To do app",
   "main": "index.js",
   "scripts": {
+    "start": "cd api && node index.js",
     "server": "cd api && node index.js",
     "client": "cd client && npm start",
-    "start": "npm-run-all --parallel server client",
+    "dev-start": "npm-run-all --parallel server client",
     "test-client": "cd client && npm test",
     "test-server": "cd api && npm test",
     "test": "npm-run-all --parallel test-server test-client"
