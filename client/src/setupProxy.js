@@ -12,7 +12,7 @@ const filter = function (pathname, req) {
 };
 
 const apiProxy = createProxyMiddleware(filter, {
-  target: "http://localhost:3002"
+  target: "http://localhost:5000"
 });
 
 module.exports = function (app) {

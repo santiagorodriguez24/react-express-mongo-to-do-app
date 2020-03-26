@@ -13,6 +13,8 @@ app.use(fileUpload({ useTempFiles: true }));
 
 app.use(express.static(__dirname + '../client/build/'));
 
+app.disable("x-powered-by");
+
 app.use(require('./routes/todoRoutes'));
 
 app.use(notFoundHandler);

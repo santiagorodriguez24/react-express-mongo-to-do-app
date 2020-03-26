@@ -27,7 +27,7 @@ class HomeContainer extends Component {
                                     </CardHeader>
                                     <CardBody>
                                         <p className="lead">
-                                            {'Work and workflow visualization tool that enables you to manage work at personal or organizational level, limit work-in-progress, and maximize efficiency. '}
+                                            {'Work and workflow visualization tool that enables you to manage work at personal or organizational level, limit work-in-progress, and maximize efficiency.'}
                                         </p>
                                     </CardBody>
                                 </Card>
