@@ -13,7 +13,7 @@ if (process.env.NODE_ENV === 'development') {
     urlFILES = 'test/uploads';
 } else {
     urlDB = process.env.mongo_database_url
-    urlFILES = process.env.upload_folder_url;
+    urlFILES = 'uploads';
 }
 
 process.env.URLDB = urlDB;

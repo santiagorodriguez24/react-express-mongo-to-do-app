@@ -18,6 +18,10 @@ app.disable("x-powered-by");
 
 app.use(require('./routes/todoRoutes'));
 
+app.get('*', function (req, res) {
+    res.sendFile('index.html', { root: path.join(__dirname, '../client/build/') });
+});
+
 app.use(notFoundHandler);
 
 app.use(errorHandler);

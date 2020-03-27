@@ -51,12 +51,12 @@ exports.getTodos = function (req, res) {
 exports.getTodoById = function (req, res) {
 
     let { id } = req.params;
-    
-    if (isNaN(id)){
+
+    if (isNaN(id)) {
         return res.status(400).json({
             ok: false,
             error: 'The task that id wasn\'t found.'
-        }); 
+        });
     }
 
     Todo.findOne({ id: id }, (error, todoDB) => {

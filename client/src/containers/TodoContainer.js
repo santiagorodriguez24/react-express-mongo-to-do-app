@@ -3,18 +3,43 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import AppFrame from '../components/AppFrame';
 import ErrorPopUp from '../components/ErrorPopUp';
-import { getTodoById, getError } from '../store/selectors/ToDoSelectors';
+import { getTodos, getTodoById, getError } from '../store/selectors/ToDoSelectors';
 import { Route, withRouter, Redirect } from 'react-router-dom';
 import { ROUTE_TODO_EDIT } from '../constants/routes';
 import ToDoForm from '../components/ToDoForm';
 import ToDoView from '../components/ToDoView';
 import { fetchTodos, updateTodo, deleteTodo, changeTodoProps } from '../store/actions/ToDoActions';
 import { SubmissionError } from 'redux-form';
+import { Row, Spinner } from 'reactstrap';
+import { isEqual, isEmpty } from 'lodash';
 
 class TodoContainer extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            loading: !props.todo,
+            todos: props.todos,
+            todo: props.todo
+        }
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+
+        if (prevState.loading && (!isEqual(nextProps.todos, prevState.todos) || !isEqual(nextProps.todo, prevState.todo))) {
+            return {
+                loading: false
+            };
+        }
+
+        return null;
+    }
+
     componentDidMount() {
-        if (!this.props.todo) {
+        if (isEmpty(this.props.todos)) {
+            this.setState({
+                loading: true
+            });
             this.props.fetchTodos('');
         }
     }
@@ -27,7 +52,7 @@ class TodoContainer extends Component {
         formData.append("description", values.description);
         formData.append("state", values.state);
 
-        if (values.file || typeof values.file !== 'string') {
+        if (values.file && typeof values.file !== 'string') {
             formData.append("file", values.file);
         }
 
@@ -59,7 +84,13 @@ class TodoContainer extends Component {
     }
 
     renderBody = () => {
-        if (this.props.todo) {
+        if (this.state.loading) {
+            return (
+                <Row className='basic-row'>
+                    <Spinner style={{ width: '3rem', height: '3rem', margin: '0 auto' }} type="grow" />
+                </Row>
+            );
+        } else if (this.props.todo) {
             return (
                 <Route
                     path={ROUTE_TODO_EDIT}
@@ -82,7 +113,7 @@ class TodoContainer extends Component {
                                     this.props.error && this.props.error !== '' ?
                                         <ErrorPopUp
                                             message={this.props.error}
-                                            reloadPage={() => document.location.reload()}
+                                            reloadPage={() => this.props.changeTodoProps({ error: '' })}
                                             removeErrorProp={this.props.changeTodoProps}
                                         />
                                         :
@@ -95,10 +126,10 @@ class TodoContainer extends Component {
                     }
                 />
             );
-        }
-        else {
+        } else {
             return <Redirect to="/not-found" />
         }
+
     }
 
     render() {
@@ -125,6 +156,7 @@ TodoContainer.propTypes = {
 };
 
 const mapStateToProps = (state, props) => ({
+    todos: getTodos(state),
     todo: getTodoById(state, props),
     error: getError(state)
 });

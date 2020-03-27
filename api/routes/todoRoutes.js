@@ -7,6 +7,8 @@ app.get('/todos', TodoController.getTodos);
 
 app.post('/todos', TodoController.createTodo);
 
+app.get('/todos/:id', TodoController.getTodoById);
+
 app.put('/todos/:id', TodoController.updateTodo);
 
 app.delete('/todos/:id', TodoController.deleteTodo);

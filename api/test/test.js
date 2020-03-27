@@ -51,6 +51,31 @@ describe('API, To Do', function () {
             });
     });
 
+    it('GET To-Do By id.', function (done) {
+        if (!testId) {
+            return this.skip();
+        }
+
+        request
+            .get(`/todos/${testId}`)
+            .set('Accept', 'application/json')
+            .expect(200)
+            .expect('content-type', /json/)
+            .expect(function (response) {
+
+                const { body } = response;
+
+                assertChai.hasAllKeys(body, ['ok', 'todo'], 'Response shape is ok.');
+                assertChai.doesNotHaveAnyKeys(body, 'error', 'No error.');
+                assertChai.isOk(body.ok, 'Response ok value is true.');
+                assertChai.deepEqual(body.todo, todosDB[todosDB.length - 1], 'The task received is as expected.');
+            })
+            .end(function (err, response) {
+                if (err) return done(err);
+                done();
+            });
+    });
+
     it('GET file.', function (done) {
         if (!testId) {
             return this.skip();
@@ -176,9 +201,25 @@ describe('API, To Do', function () {
             });
     });
 
-    it('GET request on non-existent route return 404 error with json data if Accept header is equal to application/json.', function (done) {
+    it('GET request on non-existent return index.html.', function (done) {
         request
-            .get('/hola')
+            .get('/hello')
+            .expect(200)
+            .expect('content-type', /html/)
+            .expect(function (response) {
+                assertChai.equal(response.type, 'text/html', 'Response type is text/html.');
+                assertChai.include(response.text, 'to-do-icon.png', 'HTML requires to-do icon.');
+            })
+            .end(function (err, response) {
+                if (err) return done(err);
+                done();
+            });
+    });
+
+    it('PUT request on non-existent route return 404 error with json data if Accept header is equal to application/json.', function (done) {
+        request
+            .put('/todos/100/noexist')
+            .send({ title: 'error title' })
             .set('Accept', 'application/json')
             .expect(404)
             .expect('content-type', /json/)
@@ -195,13 +236,6 @@ describe('API, To Do', function () {
                 if (err) return done(err);
                 done();
             });
-    });
-
-    it('GET request on non-existent route return 404 error with text/html data if Accept header is the default.', function (done) {
-        request
-            .get('/hola')
-            .expect(404)
-            .expect('content-type', /html/, done)
     });
 
 });
