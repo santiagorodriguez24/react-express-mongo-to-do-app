@@ -5,8 +5,6 @@ const app = express();
 
 app.get('/todos', TodoController.getTodos);
 
-//app.get('/todos/:id', TodoController.getTodoById);
-
 app.post('/todos', TodoController.createTodo);
 
 app.put('/todos/:id', TodoController.updateTodo);

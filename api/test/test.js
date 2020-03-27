@@ -51,31 +51,6 @@ describe('API, To Do', function () {
             });
     });
 
-    it('GET To-Do By id.', function (done) {
-        if (!testId) {
-            return this.skip();
-        }
-
-        request
-            .get(`/todos/${testId}`)
-            .set('Accept', 'application/json')
-            .expect(200)
-            .expect('content-type', /json/)
-            .expect(function (response) {
-
-                const { body } = response;
-
-                assertChai.hasAllKeys(body, ['ok', 'todo'], 'Response shape is ok.');
-                assertChai.doesNotHaveAnyKeys(body, 'error', 'No error.');
-                assertChai.isOk(body.ok, 'Response ok value is true.');
-                assertChai.deepEqual(body.todo, todosDB[todosDB.length - 1], 'The task received is as expected.');
-            })
-            .end(function (err, response) {
-                if (err) return done(err);
-                done();
-            });
-    });
-
     it('GET file.', function (done) {
         if (!testId) {
             return this.skip();
@@ -226,8 +201,7 @@ describe('API, To Do', function () {
         request
             .get('/hola')
             .expect(404)
-            .expect('content-type', /html/)
-            .expect('<h1>404 - Not found.</h1>', done)
+            .expect('content-type', /html/, done)
     });
 
 });

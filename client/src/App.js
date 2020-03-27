@@ -16,8 +16,8 @@ class App extends Component {
         <Switch>
           <Route exact path={ROUTE_HOME} render={props => <HomeContainer {...props} />} />
           <Route exact path={ROUTE_TODOS} render={props => <TodosListContainer {...props} />} />
-          <Route path={ROUTE_TODO} render={props => <TodoContainer id={props.match.params.id} {...props} />} />
           <Route exact path={ROUTE_TODO_ADD} render={props => <NewTodoContainer {...props} />} />
+          <Route path={ROUTE_TODO} render={props => <TodoContainer id={props.match.params.id} {...props} />} />
           <Route render={props => <NotFoundPage {...props} />} />
         </Switch>
       </Router>
