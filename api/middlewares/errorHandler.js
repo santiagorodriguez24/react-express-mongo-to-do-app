@@ -1,11 +1,13 @@
 'use strict'
 
+const path = require('path');
+
 let notFoundHandler = (req, res, next) => {
 
     // respond with html page
     if (req.accepts('html')) {
         res.set('Content-Type', 'text/html');
-        return res.status(404).send('<h1>404 - Not found.</h1>');
+        return res.sendFile(path.join(__dirname + '../../../client/build/not-found.html'));
     }
 
     // respond with json

@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#000000">
+    <meta name="description" content="Web site created using create-react-app">
+    <link rel="icon" href="%PUBLIC_URL%/images/to-do-icon.png">
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/images/to-do-icon.png">
+    <link rel="shortcut icon" href="%PUBLIC_URL%/images/to-do-icon.png">
+    <!--
+      manifest.json provides metadata used when your web app is installed on a
+      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+    -->
+    <link rel="manifest" href="/manifest.json">
+    <!--
+      Notice the use of  in the tags above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
+
+      Unlike "/favicon.ico" or "favicon.ico", "/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    -->
+    <title>To Do App</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <style type="text/css">
+        body {
+            width: 100vw;
+            min-height: 100vh;
+            height: 100%;
+            margin: 0;
+            background-color: #280904 !important;
+            display: flex;
+            flex-direction: column;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+                "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+                sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .root {
+            width: 100%;
+            height: 100%;
+        }
+
+        code {
+            font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+                monospace;
+        }
+    </style>
+    <style type="text/css">
+        @import url(https://fonts.googleapis.com/css?family=Roboto&display=swap);
+    </style>
+    <style type="text/css">
+        .basic-row,
+        .not-found-row,
+        .actions-bar,
+        .todo-form .form-link {
+            margin: 0px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+        }
+
+        .todo-logo {
+            border-style: none;
+            vertical-align: top;
+            max-height: 80px;
+            width: auto;
+        }
+
+        .app-frame {
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            width: 100%;
+            height: 100%;
+            color: white;
+        }
+
+        .app-header {
+            margin: 0px;
+            width: 100%;
+            padding-bottom: 8px;
+            margin-bottom: 20px;
+            border: 0;
+            border-bottom: 1px;
+            border-style: solid;
+            border-color: white;
+            flex-wrap: wrap !important;
+        }
+
+        .app-header .col-header {
+            display: flex;
+            align-items: center;
+            padding-left: 0px;
+            padding-right: 25px;
+        }
+
+        .app-header h1 {
+            color: white;
+        }
+
+        @media (max-width: 576px) {
+            .app-header {
+                background-size: 100%;
+            }
+
+            .app-header h1 {
+                font-size: 1.2rem;
+            }
+
+            .app-header .col-header {
+                display: flex;
+                align-items: center;
+                padding-left: 0px;
+                padding-right: 0.75rem;
+            }
+        }
+
+        @keyframes slider {
+            0% {
+                opacity: 0;
+                animation-timing-function: ease-in;
+            }
+
+            10% {
+                opacity: 1;
+                animation-timing-function: ease-out;
+            }
+
+            25% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0;
+                transform: scale(2);
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+
+        @keyframes displacement {
+            from {
+                background-position: top right;
+            }
+
+            to {
+                background-position: bottom left;
+                animation-timing-function: linear;
+            }
+        }
+
+        .not-found-image {
+            background-image: url("/images/recalculating.jpg");
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            width: 100%;
+            height: 80vh;
+            background-repeat: no-repeat;
+            background-size: auto;
+            position: relative;
+            animation-duration: 10s, 2s;
+            animation-name: movement, roll;
+            animation-iteration-count: infinite, 1;
+            animation-direction: alternate;
+            animation-timing-function: ease, ease-in-out;
+        }
+
+        @media (max-width: 992px) {
+            .not-found-image {
+                background-size: 100%;
+            }
+        }
+
+        @keyframes movement {
+            from {
+                background-position: top left;
+            }
+
+            25% {
+                background-position: bottom left;
+            }
+
+            50% {
+                background-position: top right;
+            }
+
+            75% {
+                background-position: bottom right;
+            }
+
+            to {
+                background-position: top left;
+            }
+        }
+
+        @keyframes roll {
+            0% {
+                transform: rotate(0);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .not-found-row {
+            width: 90%;
+            justify-content: center;
+            position: absolute;
+            z-index: 999;
+        }
+
+        .edit {
+            background-color: #9d2053;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .edit.disabled:hover {
+            background-color: #9d2053;
+        }
+
+        .edit:hover {
+            background-color: rgba(157, 32, 83, 0.8);
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root" class="root">
+        <div class="app-frame">
+            <div class="container-fluid">
+                <div class="app-header row">
+                    <div class="col-header col-auto">
+                        <img src="/images/to-do-icon.png" alt="To Do-Logo" class="todo-logo">
+                    </div>
+                    <div class="col-header col-auto">
+                        <h1 style="margin: 0px;">Page not Found</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="not-found-image">
+                    <div class="not-found-row row">
+                        <a class="edit btn btn- btn-lg btn-block" href="/">
+                            <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 576 512"
+                                height="1em" width="1em" xmlns="http://www.w3.org/2000/svg" style="margin-right: 15px;">
+                                <path
+                                    d="M280.37 148.26L96 300.11V464a16 16 0 0 0 16 16l112.06-.29a16 16 0 0 0 15.92-16V368a16 16 0 0 1 16-16h64a16 16 0 0 1 16 16v95.64a16 16 0 0 0 16 16.05L464 480a16 16 0 0 0 16-16V300L295.67 148.26a12.19 12.19 0 0 0-15.3 0zM571.6 251.47L488 182.56V44.05a12 12 0 0 0-12-12h-56a12 12 0 0 0-12 12v72.61L318.47 43a48 48 0 0 0-61 0L4.34 251.47a12 12 0 0 0-1.6 16.9l25.5 31A12 12 0 0 0 45.15 301l235.22-193.74a12.19 12.19 0 0 1 15.3 0L530.9 301a12 12 0 0 0 16.9-1.6l25.5-31a12 12 0 0 0-1.7-16.93z">
+                                </path>
+                            </svg>
+                            Back to Home
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/bundle.js"></script>
+    <script src="/static/js/0.chunk.js"></script>
+    <script src="/static/js/main.chunk.js"></script>
+
+</body>
+
+</html>

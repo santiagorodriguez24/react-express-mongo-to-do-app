@@ -20,7 +20,6 @@ class TodoContainer extends Component {
     }
 
     handleSubmit = (values) => {
-        console.log('HandleSubmit: ', values);
         const { id } = values;
 
         const formData = new FormData();

@@ -14,32 +14,11 @@ class App extends Component {
     return (
       <Router>
         <Switch>
-          <Route
-            exact
-            path={ROUTE_HOME}
-            render={props => <HomeContainer {...props} />}
-          >
-          </Route>
-          <Route
-            exact
-            path={ROUTE_TODOS}
-            render={props => <TodosListContainer {...props} />}
-          >
-          </Route>
-          <Route
-            path={ROUTE_TODO_ADD}
-            render={props => <NewTodoContainer {...props} />}
-          >
-          </Route>
-          <Route
-            path={ROUTE_TODO}
-            render={props => <TodoContainer id={props.match.params.id} />}
-          >
-          </Route>
-          <Route
-            render={props => <NotFoundPage {...props} />}
-          >
-          </Route>
+          <Route exact path={ROUTE_HOME} render={props => <HomeContainer {...props} />} />
+          <Route exact path={ROUTE_TODOS} render={props => <TodosListContainer {...props} />} />
+          <Route path={ROUTE_TODO} render={props => <TodoContainer id={props.match.params.id} {...props} />} />
+          <Route exact path={ROUTE_TODO_ADD} render={props => <NewTodoContainer {...props} />} />
+          <Route render={props => <NotFoundPage {...props} />} />
         </Switch>
       </Router>
     );

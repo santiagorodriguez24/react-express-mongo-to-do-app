@@ -1,7 +1,7 @@
 'use strict'
 const express = require('express');
 const bodyParser = require('body-parser');
-const fileUpload = require('express-fileupload')
+const fileUpload = require('express-fileupload');
 const path = require('path');
 const { notFoundHandler, errorHandler } = require('./middlewares/errorHandler');
 

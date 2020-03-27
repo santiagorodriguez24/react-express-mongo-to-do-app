@@ -19,10 +19,15 @@ const ToDoView = props => {
                 <CardBody>
                     <div><strong>Description: </strong><i>{description}</i></div>
                     <div><strong>State: </strong><i>{state}</i></div>
-                    <div>
-                        <strong>File: </strong>
-                        <a href={`/${file}`}  rel="noopener noreferrer">{file ? file.replace("uploads/", "") : ""}</a>
-                    </div>
+                    {
+                        file ?
+                            <div>
+                                <strong>File: </strong>
+                                <a href={`/${file}`} target="_blank" rel="noopener noreferrer">{file.replace("uploads/", "")}</a>
+                            </div>
+                            :
+                            null
+                    }
                 </CardBody>
                 <CardFooter>
                     <Button color="" className='edit' size="lg" block onClick={() => onEdit(id)}>

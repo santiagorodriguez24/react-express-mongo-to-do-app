@@ -1,7 +1,6 @@
 const { createProxyMiddleware } = require('http-proxy-middleware');
 
 const filter = function (pathname, req) {
-
   let isUploads = pathname.includes('/uploads');
 
   if (isUploads && req.method === 'GET') {

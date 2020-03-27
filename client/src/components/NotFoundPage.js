@@ -3,6 +3,7 @@ import AppFrame from './AppFrame';
 import { Row, Button } from 'reactstrap';
 import { Link } from 'react-router-dom'
 import { FaHome } from 'react-icons/fa';
+import { ROUTE_HOME } from '../constants/routes';
 
 class NotFoundPage extends Component {
 
@@ -19,7 +20,7 @@ class NotFoundPage extends Component {
                                 block
                                 size="lg"
                                 tag={Link}
-                                to={'/'}
+                                to={ROUTE_HOME}
                             >
                                 <FaHome style={{ marginRight: '15px' }} />
                                 {'Back to Home'}
