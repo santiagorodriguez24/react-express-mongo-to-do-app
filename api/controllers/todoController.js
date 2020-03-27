@@ -134,7 +134,7 @@ exports.createTodo = function (req, res) {
 
                 return res.status(500).json({
                     ok: false,
-                    error: 'Failed to save the attached file.'
+                    error: `Failed to save the attached file. Error: ${error}`
                 });
             }
 
