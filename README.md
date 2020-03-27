@@ -1,13 +1,8 @@
-# superagent
+# To-Do App
 
-[![build status](https://img.shields.io/travis/visionmedia/superagent.svg)](https://travis-ci.org/visionmedia/superagent)
-[![code coverage](https://img.shields.io/codecov/c/github/visionmedia/superagent.svg)](https://codecov.io/gh/visionmedia/superagent)
-[![code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)](https://github.com/sindresorhus/xo)
 [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
-[![made with lass](https://img.shields.io/badge/made_with-lass-95CC28.svg)](https://lass.js.org)
-[![license](https://img.shields.io/github/license/visionmedia/superagent.svg)](LICENSE)
 
-> Small progressive client-side HTTP request library, and Node.js module with the same API, supporting many high-level HTTP client features
+> Work and workflow visualization tool that enable to manage work at personal or organizational level, limit work-in-progress, and maximize efficiency.
 
 
 ## Table of Contents
