@@ -128,13 +128,13 @@ exports.createTodo = function (req, res) {
         // prevents a file from being overwritten if it has the same name as the received file.
         let fileName = `${formattedName}-${new Date().getMilliseconds()}.${fileExtension}`;
 
-        file.mv(`${uploadsFolderPath}/${fileName}`, function (error) {
+        file.mv(`${path.resolve(__dirname, `../${uploadsFolderPath}`)}/${fileName}`, function (error) {
             if (error) {
                 console.log(`Failed to save the attached file. Error: ${error}`);
 
                 return res.status(500).json({
                     ok: false,
-                    error: `Failed to save the attached file. Error: ${error}`
+                    error: 'Failed to save the attached file.'
                 });
             }
 
@@ -227,7 +227,7 @@ exports.updateTodo = function (req, res) {
             let formattedName = dividedName[0].replace(/ /g, "");
             let fileName = `${formattedName}-${new Date().getMilliseconds()}.${fileExtension}`;
 
-            file.mv(`${uploadsFolderPath}/${fileName}`, function (error) {
+            file.mv(`${path.resolve(__dirname, `../${uploadsFolderPath}`)}/${fileName}`, function (error) {
                 if (error) {
                     console.log(`Failed to save the attached file. Error: ${error}`);
 
