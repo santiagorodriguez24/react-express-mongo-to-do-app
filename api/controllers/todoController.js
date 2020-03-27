@@ -316,7 +316,7 @@ exports.getFile = (req, res) => {
         return res.sendFile(pathFile);
     }
     else {
-        let noFilePath = path.resolve(__dirname, '../assets/no-file.jpg');
+        let noFilePath = path.resolve(__dirname, `../${uploadsFolderPath}/no-file.jpg`);
         return res.sendFile(noFilePath);
     }
 

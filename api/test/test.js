@@ -110,7 +110,7 @@ describe('API, To Do', function () {
             .field("title", todo.title)
             .field("description", todo.description)
             .field("state", todo.state)
-            .attach("file", path.resolve(__dirname, '../assets/no-file.jpg'))
+            .attach("file", path.resolve(__dirname, './uploads/no-file.jpg'))
             .expect(201)
             .expect('content-type', /json/)
             .expect('location', /todos/)
@@ -151,7 +151,7 @@ describe('API, To Do', function () {
             .field("title", todo.title)
             .field("description", todo.description)
             .field("state", todo.state)
-            .attach("file", path.resolve(__dirname, '../assets/no-file.jpg'))
+            .attach("file", path.resolve(__dirname, './uploads/no-file.jpg'))
             .expect(200)
             .expect('content-type', /json/)
             .expect(function (response) {
