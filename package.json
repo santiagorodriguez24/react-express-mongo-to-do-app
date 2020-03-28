@@ -11,10 +11,12 @@
     "start-server": "cd api && node index.js",
     "start-client": "cd client && npm start",
     "dev-start": "npm-run-all --parallel start-server start-client",
+    "build-client": "cd client && npm run build",
+    "local-start": "npm-run-all build-client start-server",
     "test-client": "cd client && npm test",
     "test-server": "cd api && npm test",
     "test": "npm-run-all --parallel test-server test-client",
-    "heroku-postbuild": "cd client && npm run build"
+    "heroku-postbuild": "build-client"
   },
   "author": "Santiago Rodriguez",
   "license": "ISC",
