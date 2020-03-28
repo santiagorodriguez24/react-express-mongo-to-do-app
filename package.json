@@ -16,7 +16,7 @@
     "test-client": "cd client && npm test",
     "test-server": "cd api && npm test",
     "test": "npm-run-all --parallel test-server test-client",
-    "heroku-postbuild": "build-client"
+    "heroku-postbuild": "cd client && npm run build"
   },
   "author": "Santiago Rodriguez",
   "license": "ISC",
