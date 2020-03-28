@@ -27,7 +27,7 @@ This application made with [React.js][] and [Express.js][] is designed to work w
 
 ## Installation
 
-Before installing, [download and install Node.js](https://nodejs.org/en/download/).
+Before installing, [download and install Node.js](https://nodejs.org/en/download/){:target="_blank"}.
 
 Clone the repository:
 
@@ -94,8 +94,8 @@ npm run dev-start
 
 ### Testing
 
-The React.js front-end is testing using [Jest](https://jestjs.io/) and [Enzyme](https://enzymejs.github.io/enzyme/).
-The Node.js back-end is tested using [Mocha](https://mochajs.org/), [Chai](https://www.chaijs.com/) and [Supertest](https://github.com/visionmedia/supertest).
+The React.js front-end is testing using [Jest](https://jestjs.io/){:target="_blank"} and [Enzyme](https://enzymejs.github.io/enzyme/){:target="_blank"}.
+The Node.js back-end is tested using [Mocha](https://mochajs.org/){:target="_blank"}, [Chai](https://www.chaijs.com/){:target="_blank"} and [Supertest](https://github.com/visionmedia/supertest){:target="_blank"}.
 The following commands must be run in the root directory of the project.
 
 Run front-end test:
@@ -121,7 +121,7 @@ npm test
 
 Before deploy:
 
-- Create a [MongoDB Atlas](https://www.mongodb.com/) account.
+- Create a [MongoDB Atlas](https://www.mongodb.com/){:target="_blank"} account.
 - Build a cluster.
 - Create a database in the cluster.
 - Create a user for the database.
@@ -136,13 +136,13 @@ heroku config:set mongo_database_url="mongodb+srv://<username>:<password>@cluste
 
 This deployment will:
 
-- Detect [Node buildpack](https://elements.heroku.com/buildpacks/heroku/heroku-buildpack-nodejs)
+- Detect [Node buildpack](https://elements.heroku.com/buildpacks/heroku/heroku-buildpack-nodejs){:target="_blank"}
 - Build the app with
   - `npm install` for the Node server.
   - `npm install` && `npm run build` for the React Client
 - Connect to the cloud database.
 
-:warning: Attaching files does not work as expected in heroku. The Heroku filesystem is ephemeral - that means that any changes to the file system while they dyno is running only last until that dyno is shutdown or restart. [More info](https://help.heroku.com/K1PPS2WM/why-are-my-file-uploads-missing-deleted).
+:warning: Attaching files does not work as expected in heroku. The Heroku filesystem is ephemeral - that means that any changes to the file system while they dyno is running only last until that dyno is shutdown or restart. [More info](https://help.heroku.com/K1PPS2WM/why-are-my-file-uploads-missing-deleted){:target="_blank"}.
 
 Working example: https://sr-to-do.herokuapp.com/
 
