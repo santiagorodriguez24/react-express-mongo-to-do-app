@@ -148,7 +148,7 @@ Working example: https://sr-to-do.herokuapp.com/
 
 ## Versions
 
-- [1.0.0](https://github.com/visionmedia/superagent/releases/tag/v1.0.0):
+- [1.0.0](https://github.com/santiagorodriguez24/to-do-app/releases/tag/v1.0.0):
   - First functional version of the application.
 
 ##
